@@ -1,9 +1,7 @@
 ﻿using CoderBlog.Business.Abstract;
 using CoderBlog.DataAccess.Concrete;
 using CoderBlog.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CoderBlog.Business.Concrete
 {
@@ -25,9 +23,16 @@ namespace CoderBlog.Business.Concrete
             return yDal.Get(x => x.Id == yaziId);
         }
 
-        public IList<Yazi> GetList()
+        public IList<Yazi> GetList(int KullaniciId=0,int KategoriId=0)
         {
-            return yDal.GetList();
+            if (KullaniciId > 0 && KategoriId == 0)
+                return yDal.GetList(x => x.KullaniciId == KullaniciId);
+            else if (KullaniciId == 0 && KategoriId > 0)
+                return yDal.GetList(x => x.KategoriId == KategoriId);
+            else if (KullaniciId > 0 && KategoriId > 0)
+                return yDal.GetList(x => x.KategoriId == KategoriId && x.KullaniciId == KullaniciId);
+            else
+                return yDal.GetList();
         }
 
         public void Update(Yazi yazi)

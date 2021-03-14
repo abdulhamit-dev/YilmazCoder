@@ -1,9 +1,7 @@
 ﻿using CoderBlog.Business.Abstract;
 using CoderBlog.DataAccess.Concrete;
 using CoderBlog.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CoderBlog.Business.Concrete
 {
@@ -22,12 +20,12 @@ namespace CoderBlog.Business.Concrete
 
         public Kullanici GetById(int kulId)
         {
-           return kDal.Get(x=>x.Id== kulId);
+            return kDal.Get(x => x.Id == kulId);
         }
 
         public Kullanici GetById(string kulAdi, string sifre)
         {
-            return kDal.Get(x => x.KullaniciAdi == kulAdi && x.Sifre==sifre);
+            return kDal.Get(x => x.KullaniciAdi == kulAdi && x.Sifre == sifre);
         }
 
         public IList<Kullanici> GetList()

@@ -1,11 +1,6 @@
 ﻿using CoderBlog.Business.Concrete;
 using CoderBlog.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CoderBlogApi.Controllers
 {
@@ -20,18 +15,24 @@ namespace CoderBlogApi.Controllers
             var result = yaziManager.GetList();
             return Ok(result);
         }
+        [HttpGet("getlistfilter")]
+        public IActionResult GetListFilter(int kullaniciId,int kategoriId)
+        {
+            var result = yaziManager.GetList(kullaniciId,kategoriId);
+            return Ok(result);
+        }
 
         [HttpGet("get")]
-        public IActionResult GetList(int Id)
+        public IActionResult Get(int id)
         {
-            var result = yaziManager.GetById(Id);
+            var result = yaziManager.GetById(id);
             return Ok(result);
         }
 
         [HttpPost("YaziKaydet")]
         public IActionResult YaziKaydet(Yazi yazi)
         {
-            if(yazi.KullaniciId<=0 || yazi.KategoriId<=0)
+            if (yazi.KullaniciId <= 0 || yazi.KategoriId <= 0)
                 return Ok(false);
 
             if (yazi.Id > 0)
@@ -41,7 +42,7 @@ namespace CoderBlogApi.Controllers
 
             return Ok(true);
 
-            
+
         }
 
         [HttpPost("Sil")]

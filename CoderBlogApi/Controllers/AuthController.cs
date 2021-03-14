@@ -30,12 +30,12 @@ namespace CoderBlogApi.Controllers
                 var tokenOptions = new JwtSecurityToken(
                     issuer: "www.yilmazcoder.online",
                     audience: "www.yilmazcoder.online",
-                    claims: new List<Claim> { 
-                        new Claim("id", kul.Id.ToString()), 
-                        new Claim("ad", kul.Ad), 
-                        new Claim("soyad", kul.Soyad), 
-                        new Claim("ePosta", kul.Eposta), 
-                        new Claim("kullaniciAdi", kul.KullaniciAdi) 
+                    claims: new List<Claim> {
+                        new Claim("id", kul.Id.ToString()),
+                        new Claim("ad", kul.Ad),
+                        new Claim("soyad", kul.Soyad),
+                        new Claim("ePosta", kul.Eposta),
+                        new Claim("kullaniciAdi", kul.KullaniciAdi)
                     },
                     expires: DateTime.Now.AddMinutes(20),
                     signingCredentials: signingCreadentials

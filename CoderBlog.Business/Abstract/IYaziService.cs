@@ -8,7 +8,7 @@ namespace CoderBlog.Business.Abstract
     public interface IYaziService
     {
         Yazi GetById(int yaziId);
-        IList<Yazi> GetList();
+        IList<Yazi> GetList(int KullaniciId = 0, int KategoriId = 0);
         void Add(Yazi yazi);
         void Delete(Yazi yazi);
         void Update(Yazi yazi);

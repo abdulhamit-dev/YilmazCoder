@@ -1,11 +1,6 @@
 ﻿using CoderBlog.Business.Concrete;
 using CoderBlog.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CoderBlogApi.Controllers
 {
@@ -32,7 +27,7 @@ namespace CoderBlogApi.Controllers
         [HttpPost("Kaydet")]
         public IActionResult KullaniciKaydet(Kullanici kullanici)
         {
-            
+
             if (kullanici.Id > 0)
                 kulManager.Update(kullanici);
             else
