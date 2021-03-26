@@ -1,6 +1,7 @@
 ﻿using CoderBlog.Business.Abstract;
 using CoderBlog.DataAccess.Concrete;
 using CoderBlog.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace CoderBlog.Business.Concrete
@@ -33,6 +34,11 @@ namespace CoderBlog.Business.Concrete
                 return yDal.GetList(x => x.KategoriId == KategoriId && x.KullaniciId == KullaniciId);
             else
                 return yDal.GetList();
+        }
+
+        public IList<Yazi> GetListYeniler()
+        {
+                return yDal.GetList(x=>x.YaziTarih>=DateTime.Now.Date.AddDays(-1));
         }
 
         public void Update(Yazi yazi)
