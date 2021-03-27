@@ -3,7 +3,8 @@ using CoderBlog.Entities;
 
 namespace CoderBlog.DataAccess.Concrete
 {
-    public class YaziDal : RepositoryBase<Yazi, CoderBlogContext>
+    public class YaziDal : RepositoryBaseV2<Yazi>
     {
+
     }
 }

@@ -21,6 +21,12 @@ namespace CoderBlogApi.Controllers
             var result = yaziManager.GetListYeniler();
             return Ok(result);
         }
+        [HttpGet("getlistTrendler")]
+        public IActionResult GetListTrendler()
+        {
+            var result = yaziManager.GetListTrendler();
+            return Ok(result);
+        }
         [HttpGet("getlistfilter")]
         public IActionResult GetListFilter(int kullaniciId,int kategoriId)
         {

@@ -3,7 +3,7 @@ using CoderBlog.Entities;
 
 namespace CoderBlog.DataAccess.Concrete
 {
-    public class KategoriDal : RepositoryBase<Kategori, CoderBlogContext>
+    public class KategoriDal : RepositoryBaseV2<Kategori>
     {
     }
 }

@@ -3,7 +3,7 @@ using CoderBlog.Entities;
 
 namespace CoderBlog.DataAccess.Concrete
 {
-    public class KullaniciDal : RepositoryBase<Kullanici, CoderBlogContext>
+    public class KullaniciDal : RepositoryBaseV2<Kullanici>
     {
     }
 }
