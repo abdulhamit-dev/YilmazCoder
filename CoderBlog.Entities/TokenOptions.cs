@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CoderBlog.Core.Entities;
 
 namespace CoderBlog.Entities
 {
-    public class TokenOptions
+    public class TokenOptions : IEntity
     {
         public string Audience { get; set; }
         public string Issuer { get; set; }

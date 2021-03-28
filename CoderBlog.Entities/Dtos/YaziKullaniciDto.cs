@@ -1,9 +1,11 @@
 ﻿using CoderBlog.Core.Entities;
 using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace CoderBlog.Entities
+namespace CoderBlog.Entities.Dtos
 {
-    public class Yazi : IEntity
+    public class YaziKullaniciDto:IDto
     {
         public int Id { get; set; }
         public int KategoriId { get; set; }
@@ -11,8 +13,6 @@ namespace CoderBlog.Entities
         public string YaziBaslik { get; set; }
         public string YaziIcerik { get; set; }
         public DateTime YaziTarih { get; set; }
-        //[NotMapped]
-        //public string KullaniciAdi { get; set; }
-
+        public string KullaniciAdi { get; set; }
     }
 }

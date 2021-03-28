@@ -15,4 +15,8 @@
     <ProjectReference Include="..\CoderBlog.Entities\CoderBlog.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\Images\" />
+  </ItemGroup>
+
 </Project>

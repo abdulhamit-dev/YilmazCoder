@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CoderBlog.Core.Entities;
+using System;
 
 namespace CoderBlog.Entities
 {
-    public class Kullanici
+    public class Kullanici:IEntity
     {
         
         public int Id { get; set; }

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CoderBlog.Core.Entities;
 
 namespace CoderBlog.Entities
 {
-    public class Kategori
+    public class Kategori:IEntity
     {
         public int Id { get; set; }
         public string Adi { get; set; }
