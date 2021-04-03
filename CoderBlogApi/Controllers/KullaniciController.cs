@@ -1,4 +1,5 @@
 ﻿using CoderBlog.Business.Concrete;
+using CoderBlog.Core.Entities.Concrete;
 using CoderBlog.Entities;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,4 +1,5 @@
-﻿using CoderBlog.Entities;
+﻿using CoderBlog.Core.Entities.Concrete;
+using CoderBlog.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoderBlog.DataAccess.Concrete
@@ -7,11 +8,13 @@ namespace CoderBlog.DataAccess.Concrete
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=CoderBlogDb;Trusted_Connection=true");
-            //optionsBuilder.UseSqlServer(@"Server=DESKTOP-8LA6RL0\SQLEXPRESS;Database=CoderBlogDb;Trusted_Connection=true");
+            //optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=CoderBlogDb;Trusted_Connection=true");
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-8LA6RL0\SQLEXPRESS;Database=CoderBlogDb;Trusted_Connection=true");
         }
 
         public DbSet<Kullanici> Kullanici { get; set; }
+        public DbSet<Yetki> Yetki { get; set; }
+        public DbSet<KullaniciYetki> KullaniciYetki { get; set; }
         public DbSet<Yazi> Yazi { get; set; }
         public DbSet<Kategori> Kategori { get; set; }
     }

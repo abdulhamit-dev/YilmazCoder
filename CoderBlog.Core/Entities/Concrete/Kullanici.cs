@@ -1,11 +1,11 @@
-﻿using CoderBlog.Core.Entities;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace CoderBlog.Entities
+namespace CoderBlog.Core.Entities.Concrete
 {
-    public class Kullanici:IEntity
+    public class Kullanici
     {
-        
         public int Id { get; set; }
         public string KullaniciAdi { get; set; }
         public string Ad { get; set; }

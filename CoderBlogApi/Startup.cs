@@ -63,6 +63,8 @@ namespace CoderBlogApi
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("helloWorld92@text.com19921992"))
                 };
             });
+
+
             services.AddControllers();
 
             services.Configure<FormOptions>(o => {

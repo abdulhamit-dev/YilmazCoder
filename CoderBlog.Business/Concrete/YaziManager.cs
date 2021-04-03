@@ -1,7 +1,9 @@
 ﻿using CoderBlog.Business.Abstract;
+using CoderBlog.Core.Entities.Concrete;
 using CoderBlog.DataAccess.Abstract;
 using CoderBlog.DataAccess.Concrete;
 using CoderBlog.Entities;
+using CoderBlog.Entities.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,9 +42,9 @@ namespace CoderBlog.Business.Concrete
                 return yDal.GetList();
         }
 
-        public IList<Yazi> GetListTrendler()
+        public IList<YaziKullaniciDto> GetListTrendler()
         {
-            List<Yazi> ylist = new List<Yazi>();
+            List<YaziKullaniciDto> ylist = new List<YaziKullaniciDto>();
             using (CoderBlogContext ctx = new CoderBlogContext())
             {
                 var yaziRep = new RepositoryBaseV2<Yazi>(ctx);
@@ -55,9 +57,13 @@ namespace CoderBlog.Business.Concrete
 
                 foreach (var item in yazilist)
                 {
-                    Yazi y = new Yazi();
-                    y = item.Yazi;
+                    YaziKullaniciDto y = new YaziKullaniciDto();
+                    y.Id = item.Yazi.Id;
                     y.KullaniciAdi = item.Kullanici.KullaniciAdi;
+                    y.KategoriId = item.Yazi.KategoriId;
+                    y.YaziBaslik = item.Yazi.YaziBaslik;
+                    y.YaziIcerik = item.Yazi.YaziIcerik;
+                    y.YaziTarih = item.Yazi.YaziTarih;
                     ylist.Add(y);
                 }
             }
@@ -65,14 +71,14 @@ namespace CoderBlog.Business.Concrete
             return ylist;
         }
 
-        public IList<Yazi> GetListYeniler()
+        public IList<YaziKullaniciDto> GetListYeniler()
         {
-            List<Yazi> ylist = new List<Yazi>();
+            List<YaziKullaniciDto> ylist = new List<YaziKullaniciDto>();
             using (CoderBlogContext ctx = new CoderBlogContext())
             {
                 var yaziRep = new RepositoryBaseV2<Yazi>(ctx);
                 var kullaniciRep = new RepositoryBaseV2<Kullanici>(ctx);
-                var yazilist = yaziRep.GetList(x=>x.YaziTarih>DateTime.Now.AddDays(-2)).Join(kullaniciRep.GetList(),
+                var yazilist = yaziRep.GetList(x=>x.YaziTarih>DateTime.Now.AddDays(-37)).Join(kullaniciRep.GetList(),
                                       yazi => yazi.KullaniciId,
                                       kul => kul.Id,
                                       (yazi, kullanici) => new { Yazi = yazi, Kullanici = kullanici }).ToList();
@@ -80,9 +86,13 @@ namespace CoderBlog.Business.Concrete
 
                 foreach (var item in yazilist)
                 {
-                    Yazi y = new Yazi();
-                    y = item.Yazi;
+                    YaziKullaniciDto y = new YaziKullaniciDto();
+                    y.Id = item.Yazi.Id;
                     y.KullaniciAdi = item.Kullanici.KullaniciAdi;
+                    y.KategoriId = item.Yazi.KategoriId;
+                    y.YaziBaslik = item.Yazi.YaziBaslik;
+                    y.YaziIcerik = item.Yazi.YaziIcerik;
+                    y.YaziTarih = item.Yazi.YaziTarih;
                     ylist.Add(y);
                 }
             }

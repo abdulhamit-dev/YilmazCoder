@@ -1,4 +1,5 @@
-﻿using CoderBlog.Entities;
+﻿using CoderBlog.Core.Entities.Concrete;
+using CoderBlog.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,5 +14,6 @@ namespace CoderBlog.Business.Abstract
         void Add(Kullanici kullanici);
         void Delete(Kullanici kullanici);
         void Update(Kullanici kullanici);
+        List<Yetki> YetkiList(Kullanici kullanici);
     }
 }
