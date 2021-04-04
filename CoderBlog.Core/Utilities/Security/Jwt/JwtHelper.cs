@@ -70,6 +70,7 @@ namespace CoderBlog.Core.Utilities.Security.Jwt
             //claims.AddNameIdentifier(kullanici.Id.ToString());
             //claims.AddEmail(kullanici.Eposta);
             //claims.AddName($"{kullanici.Ad} {kullanici.Soyad}");
+
             claims.AddRoles(yetkiList.Select(c => c.Adi).ToArray());
 
             return claims;

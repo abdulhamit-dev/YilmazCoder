@@ -14,5 +14,6 @@ namespace CoderBlog.Entities.Dtos
         public string YaziIcerik { get; set; }
         public DateTime YaziTarih { get; set; }
         public string KullaniciAdi { get; set; }
+        public string YaziKapakResim { get; set; }
     }
 }
