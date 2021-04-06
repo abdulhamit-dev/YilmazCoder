@@ -17,5 +17,7 @@ namespace CoderBlog.DataAccess.Concrete
         public DbSet<KullaniciYetki> KullaniciYetki { get; set; }
         public DbSet<Yazi> Yazi { get; set; }
         public DbSet<Kategori> Kategori { get; set; }
+        public DbSet<Yorum> Yorum { get; set; }
+        public DbSet<Begeni> Begeni { get; set; }
     }
 }

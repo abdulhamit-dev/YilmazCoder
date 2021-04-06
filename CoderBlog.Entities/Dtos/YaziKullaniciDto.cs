@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CoderBlog.Entities.Dtos
 {
-    public class YaziKullaniciDto:IDto
+    public class YaziDto:IDto
     {
         public int Id { get; set; }
         public int KategoriId { get; set; }
@@ -15,5 +15,7 @@ namespace CoderBlog.Entities.Dtos
         public DateTime YaziTarih { get; set; }
         public string KullaniciAdi { get; set; }
         public string YaziKapakResim { get; set; }
+        public int YorumSayisi { get; set; }
+        public int BegeniSayisi { get; set; }
     }
 }
