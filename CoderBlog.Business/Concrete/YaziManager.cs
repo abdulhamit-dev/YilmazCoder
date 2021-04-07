@@ -25,9 +25,46 @@ namespace CoderBlog.Business.Concrete
             yDal.Delete(yazi);
         }
 
-        public Yazi GetById(int yaziId)
+        public YaziDto GetById(int yaziId)
         {
-            return yDal.Get(x => x.Id == yaziId);
+            YaziDto yaziDto = new YaziDto();
+
+            using (CoderBlogContext ctx = new CoderBlogContext())
+            {
+                var yaziRep = new RepositoryBaseV2<Yazi>(ctx);
+                var kullaniciRep = new RepositoryBaseV2<Kullanici>(ctx);
+                var yorumRep = new RepositoryBaseV2<Yorum>(ctx);
+                var begeniRep = new RepositoryBaseV2<Begeni>(ctx);
+
+
+                var yazilist = (from yazi in yaziRep.GetList(x=>x.Id==yaziId)
+                                join kullanici in kullaniciRep.GetList() on yazi.KullaniciId equals kullanici.Id
+                                select new
+                                {
+                                    yazi = yazi,
+                                    kullanici = kullanici
+                                }).ToList();
+
+
+                foreach (var item in yazilist)
+                {
+                    YaziDto y = new YaziDto();
+                    y.Id = item.yazi.Id;
+                    y.KategoriId = item.yazi.KategoriId;
+                    y.KullaniciAdi = item.kullanici.KullaniciAdi;
+                    y.KullaniciId = item.kullanici.Id;
+                    y.YaziBaslik = item.yazi.YaziBaslik;
+                    y.YaziIcerik = item.yazi.YaziIcerik;
+                    y.YaziTarih = item.yazi.YaziTarih;
+                    y.YaziKapakResim = item.yazi.YaziKapakResim;
+                    y.BegeniSayisi = begeniRep.GetList(x => x.YaziId == y.Id).Count();
+                    y.YorumSayisi = yorumRep.GetList(x => x.YaziId == y.Id).Count();
+                    yaziDto = y;
+                }
+            }
+
+            return yaziDto;
+            //return yDal.Get(x => x.Id == yaziId);
         }
 
         public IList<Yazi> GetList(int KullaniciId=0,int KategoriId=0)

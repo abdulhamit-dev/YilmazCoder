@@ -18,6 +18,7 @@ namespace CoderBlogApi.Controllers
     public class YaziController : ControllerBase
     {
         YaziManager yaziManager = new YaziManager();
+        YorumManager yorumManager = new YorumManager();
         [HttpGet("getlist")]
         public IActionResult GetList()
         {
@@ -50,6 +51,7 @@ namespace CoderBlogApi.Controllers
             var result = yaziManager.GetById(id);
             return Ok(result);
         }
+
 
   
 
@@ -95,5 +97,13 @@ namespace CoderBlogApi.Controllers
             yaziManager.Delete(yazi);
             return Ok(true);
         }
+
+        [HttpGet("getlistyaziyorum")]
+        public IActionResult GetListYaziYorum(int yaziId)
+        {
+            var result = yorumManager.GetList(yaziId);
+            return Ok(result);
+        }
+
     }
 }
