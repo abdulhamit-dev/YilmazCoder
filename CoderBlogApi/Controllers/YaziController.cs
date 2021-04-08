@@ -52,9 +52,6 @@ namespace CoderBlogApi.Controllers
             return Ok(result);
         }
 
-
-  
-
         [HttpPost("YaziKaydet")]
         public IActionResult YeniYaziKaydet([FromForm]YaziFormFileDto yaziForm)
         {
@@ -88,8 +85,6 @@ namespace CoderBlogApi.Controllers
 
             return Ok(true);
         }
-
-
 
         [HttpPost("Sil")]
         public IActionResult YaziSil(Yazi yazi)

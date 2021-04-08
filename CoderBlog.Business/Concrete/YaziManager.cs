@@ -149,8 +149,6 @@ namespace CoderBlog.Business.Concrete
             return ylist;
         }
 
-
-
         public void Update(Yazi yazi)
         {
             yDal.Update(yazi);
