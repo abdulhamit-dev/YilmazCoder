@@ -26,7 +26,7 @@ namespace CoderBlogApi.Controllers
             return Ok(result);
         }
         [HttpGet("getlistYeniler")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult GetListYeniler()
         {
             var result = yaziManager.GetListYeniler();
@@ -53,7 +53,7 @@ namespace CoderBlogApi.Controllers
         }
 
         [HttpPost("YaziKaydet")]
-        public IActionResult YeniYaziKaydet([FromForm]YaziFormFileDto yaziForm)
+        public IActionResult YaziKaydet([FromForm]YaziFormFileDto yaziForm)
         {
 
             Yazi yazi = JsonConvert.DeserializeObject<Yazi>(yaziForm.yazi); //JsonSerializer.Deserialize<Yazi>(yaziForm.yazi);
@@ -66,6 +66,8 @@ namespace CoderBlogApi.Controllers
             var file = yaziForm.yaziKapakResim;
             var folderName = Path.Combine("Resources", "Images");
             var pathToSave = @"C:\Angular\CoderBlog\CoderBlog\src\assets\yaziKapakResim";// Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            if (file == null)
+                return Ok(true);
             if (file.Length > 0)
             {
                 var fileName =ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');

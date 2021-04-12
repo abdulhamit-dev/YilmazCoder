@@ -18,7 +18,7 @@ namespace CoderBlogApi.Controllers
         [HttpPost("Kaydet")]
         public IActionResult Kaydet(Begeni begen)
         {
-            Begeni begeni = manager.GetYaziBegeni(begen.YaziId);
+            Begeni begeni = manager.GetYaziBegeni(begen.YaziId,begen.KullaniciId);
             if (begeni==null)
             {
                 manager.Add(begen);

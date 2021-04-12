@@ -30,9 +30,9 @@ namespace CoderBlog.Business.Concrete
             return bDal.GetList(x => x.KullaniciId == kullaniciId);
         }
 
-        public Begeni GetYaziBegeni(int yaziId)
+        public Begeni GetYaziBegeni(int yaziId, int kulId)
         {
-          return  bDal.Get(x => x.YaziId == yaziId);
+          return  bDal.Get(x => x.YaziId == yaziId && x.KullaniciId==kulId);
         }
 
         public void Update(Begeni begeni)
