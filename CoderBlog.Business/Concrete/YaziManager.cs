@@ -35,6 +35,7 @@ namespace CoderBlog.Business.Concrete
                 var kullaniciRep = new RepositoryBaseV2<Kullanici>(ctx);
                 var yorumRep = new RepositoryBaseV2<Yorum>(ctx);
                 var begeniRep = new RepositoryBaseV2<Begeni>(ctx);
+                var kategoriRep = new RepositoryBaseV2<Kategori>(ctx);
 
 
                 var yazilist = (from yazi in yaziRep.GetList(x=>x.Id==yaziId)
@@ -51,6 +52,7 @@ namespace CoderBlog.Business.Concrete
                     YaziDto y = new YaziDto();
                     y.Id = item.yazi.Id;
                     y.KategoriId = item.yazi.KategoriId;
+                    y.KategoriAdi = kategoriRep.Get(x => x.Id == item.yazi.KategoriId).Adi;
                     y.KullaniciAdi = item.kullanici.KullaniciAdi;
                     y.KullaniciId = item.kullanici.Id;
                     y.YaziBaslik = item.yazi.YaziBaslik;
@@ -86,6 +88,7 @@ namespace CoderBlog.Business.Concrete
             {
                 var yaziRep = new RepositoryBaseV2<Yazi>(ctx);
                 var kullaniciRep = new RepositoryBaseV2<Kullanici>(ctx);
+                var kategoriRep = new RepositoryBaseV2<Kategori>(ctx);
                 var yazilist = yaziRep.GetList().Join(kullaniciRep.GetList(),
                                       yazi => yazi.KullaniciId,
                                       kul => kul.Id,
@@ -97,6 +100,7 @@ namespace CoderBlog.Business.Concrete
                     YaziDto y = new YaziDto();
                     y.Id = item.Yazi.Id;
                     y.KullaniciAdi = item.Kullanici.KullaniciAdi;
+                    y.KategoriAdi = kategoriRep.Get(x => x.Id == item.Yazi.KategoriId).Adi;
                     y.KategoriId = item.Yazi.KategoriId;
                     y.YaziBaslik = item.Yazi.YaziBaslik;
                     y.YaziIcerik = item.Yazi.YaziIcerik;
@@ -117,7 +121,7 @@ namespace CoderBlog.Business.Concrete
                 var kullaniciRep = new RepositoryBaseV2<Kullanici>(ctx);
                 var yorumRep = new RepositoryBaseV2<Yorum>(ctx);
                 var begeniRep = new RepositoryBaseV2<Begeni>(ctx);
-
+                var kategoriRep = new RepositoryBaseV2<Kategori>(ctx);
 
                 var yazilist = (from yazi in yaziRep.GetList()
                                     //join yorum in yorumRep.GetList() on yazi.Id equals yorum.YaziId
@@ -135,6 +139,7 @@ namespace CoderBlog.Business.Concrete
                     YaziDto y = new YaziDto();
                     y.Id =item.yazi.Id;
                     y.KategoriId = item.yazi.KategoriId;
+                    y.KategoriAdi = kategoriRep.Get(x => x.Id ==item.yazi.KategoriId).Adi;
                     y.KullaniciAdi = item.kullanici.KullaniciAdi;
                     y.YaziBaslik = item.yazi.YaziBaslik;
                     y.YaziIcerik = item.yazi.YaziIcerik;

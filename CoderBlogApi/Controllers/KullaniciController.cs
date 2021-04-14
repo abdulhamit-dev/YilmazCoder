@@ -28,9 +28,12 @@ namespace CoderBlogApi.Controllers
         [HttpPost("Kaydet")]
         public IActionResult KullaniciKaydet(Kullanici kullanici)
         {
-
+            Kullanici kul = kulManager.GetById(kullanici.Id);
+            kul.Ad = kullanici.Ad;
+            kul.Soyad = kullanici.Soyad;
+            
             if (kullanici.Id > 0)
-                kulManager.Update(kullanici);
+                kulManager.Update(kul);
             else
                 kulManager.Add(kullanici);
 
