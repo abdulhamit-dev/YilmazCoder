@@ -29,11 +29,14 @@ namespace CoderBlogApi.Controllers
         public IActionResult KullaniciKaydet(Kullanici kullanici)
         {
             Kullanici kul = kulManager.GetById(kullanici.Id);
-            kul.Ad = kullanici.Ad;
-            kul.Soyad = kullanici.Soyad;
-            
-            if (kullanici.Id > 0)
+
+
+            if (kul!=null)
+            {
+                kul.Ad = kullanici.Ad;
+                kul.Soyad = kullanici.Soyad;
                 kulManager.Update(kul);
+            }
             else
                 kulManager.Add(kullanici);
 

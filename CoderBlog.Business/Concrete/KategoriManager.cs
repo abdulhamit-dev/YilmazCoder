@@ -2,6 +2,7 @@
 using CoderBlog.DataAccess.Concrete;
 using CoderBlog.Entities;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CoderBlog.Business.Concrete
 {
@@ -25,7 +26,7 @@ namespace CoderBlog.Business.Concrete
 
         public IList<Kategori> GetList()
         {
-            return kDal.GetList();
+            return kDal.GetList().OrderBy(x=>x.Adi).ToList();
         }
 
         public void Update(Kategori kategori)
