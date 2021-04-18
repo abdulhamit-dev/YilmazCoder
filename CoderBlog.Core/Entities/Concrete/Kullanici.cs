@@ -13,5 +13,6 @@ namespace CoderBlog.Core.Entities.Concrete
         public string Sifre { get; set; }
         public string Eposta { get; set; }
         public DateTime KayitTarihi { get; set; }
+        public string Resim { get; set; }
     }
 }
