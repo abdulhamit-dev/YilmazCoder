@@ -11,6 +11,7 @@ namespace CoderBlog.Entities.Dtos
         public int KategoriId { get; set; }
         public string KategoriAdi { get; set; }
         public int KullaniciId { get; set; }
+        public string KullaniciResmi { get; set; }
         public string YaziBaslik { get; set; }
         public string YaziIcerik { get; set; }
         public DateTime YaziTarih { get; set; }

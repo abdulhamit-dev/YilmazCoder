@@ -55,6 +55,7 @@ namespace CoderBlog.Business.Concrete
                     y.KategoriAdi = kategoriRep.Get(x => x.Id == item.yazi.KategoriId).Adi;
                     y.KullaniciAdi = item.kullanici.KullaniciAdi;
                     y.KullaniciId = item.kullanici.Id;
+                    y.KullaniciResmi = item.kullanici.Resim;
                     y.YaziBaslik = item.yazi.YaziBaslik;
                     y.YaziIcerik = item.yazi.YaziIcerik;
                     y.YaziTarih = item.yazi.YaziTarih;
@@ -101,6 +102,7 @@ namespace CoderBlog.Business.Concrete
                     y.Id = item.Yazi.Id;
                     y.KullaniciAdi = item.Kullanici.KullaniciAdi;
                     y.KategoriAdi = kategoriRep.Get(x => x.Id == item.Yazi.KategoriId).Adi;
+                    y.KullaniciResmi = kullaniciRep.Get(x => x.Id == item.Yazi.KullaniciId).Resim;
                     y.KategoriId = item.Yazi.KategoriId;
                     y.YaziBaslik = item.Yazi.YaziBaslik;
                     y.YaziIcerik = item.Yazi.YaziIcerik;
@@ -110,7 +112,7 @@ namespace CoderBlog.Business.Concrete
             }
 
             return ylist;
-        }
+        } 
 
         public IList<YaziDto> GetListYeniler()
         {
@@ -141,6 +143,7 @@ namespace CoderBlog.Business.Concrete
                     y.KategoriId = item.yazi.KategoriId;
                     y.KategoriAdi = kategoriRep.Get(x => x.Id ==item.yazi.KategoriId).Adi;
                     y.KullaniciAdi = item.kullanici.KullaniciAdi;
+                    y.KullaniciResmi = kullaniciRep.Get(x => x.Id == item.yazi.KullaniciId).Resim;
                     y.YaziBaslik = item.yazi.YaziBaslik;
                     y.YaziIcerik = item.yazi.YaziIcerik;
                     y.YaziTarih = item.yazi.YaziTarih;
