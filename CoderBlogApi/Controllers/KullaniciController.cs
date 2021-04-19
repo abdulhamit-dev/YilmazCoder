@@ -68,7 +68,7 @@ namespace CoderBlogApi.Controllers
 
             var file = kullaniciForm.kullaniciResmi;
             var folderName = Path.Combine("Resources", "Images");
-            var pathToSave = @"C:\Angular\CoderBlog\CoderBlog\src\assets\profilResmi";// Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            var pathToSave = @"C:\GitRepo\CoderBlog\src\assets\profilResmi";// Path.Combine(Directory.GetCurrentDirectory(), folderName);
             if (file == null)
                 return Ok(true);
             if (file.Length > 0)

@@ -107,6 +107,7 @@ namespace CoderBlog.Business.Concrete
                     y.YaziBaslik = item.Yazi.YaziBaslik;
                     y.YaziIcerik = item.Yazi.YaziIcerik;
                     y.YaziTarih = item.Yazi.YaziTarih;
+                    y.YaziKapakResim = item.Yazi.YaziKapakResim;
                     ylist.Add(y);
                 }
             }

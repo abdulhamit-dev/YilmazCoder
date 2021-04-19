@@ -65,7 +65,7 @@ namespace CoderBlogApi.Controllers
 
             var file = yaziForm.yaziKapakResim;
             var folderName = Path.Combine("Resources", "Images");
-            var pathToSave = @"C:\Angular\CoderBlog\CoderBlog\src\assets\yaziKapakResim";// Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            var pathToSave = @"C:\GitRepo\CoderBlog\src\assets\yaziKapakResim";// Path.Combine(Directory.GetCurrentDirectory(), folderName);
             if (file == null)
                 return Ok(true);
             if (file.Length > 0)
