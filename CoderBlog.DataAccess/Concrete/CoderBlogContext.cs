@@ -9,7 +9,8 @@ namespace CoderBlog.DataAccess.Concrete
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=CoderBlogDb;Trusted_Connection=true");
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-8LA6RL0\SQLEXPRESS;Database=CoderBlogDb;Trusted_Connection=true");
+            //optionsBuilder.UseSqlServer(@"Server=DESKTOP-8LA6RL0\SQLEXPRESS;Database=CoderBlogDb;Trusted_Connection=true");
+            optionsBuilder.UseSqlServer(@"Server=89.252.180.91\MSSQLSERVER2016;Database=yilmazcode_blog;User ID=yilmazcode_user;Password=5^K03imt");
         }
 
         public DbSet<Kullanici> Kullanici { get; set; }

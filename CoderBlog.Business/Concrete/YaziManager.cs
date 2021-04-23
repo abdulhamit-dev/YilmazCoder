@@ -158,9 +158,59 @@ namespace CoderBlog.Business.Concrete
             return ylist;
         }
 
+        public IList<YaziDto> GetListKategoriYazi(string kategoriAdi)
+        {
+            List<YaziDto> ylist = new List<YaziDto>();
+            using (CoderBlogContext ctx = new CoderBlogContext())
+            {
+                var yaziRep = new RepositoryBaseV2<Yazi>(ctx);
+                var kullaniciRep = new RepositoryBaseV2<Kullanici>(ctx);
+                var yorumRep = new RepositoryBaseV2<Yorum>(ctx);
+                var begeniRep = new RepositoryBaseV2<Begeni>(ctx);
+                var kategoriRep = new RepositoryBaseV2<Kategori>(ctx);
+
+
+
+                var yazilist = (from yazi in yaziRep.GetList()
+                                join kategori in kategoriRep.GetList(x=>x.Adi==kategoriAdi) on yazi.KategoriId equals kategori.Id
+                                select new
+                                {
+                                    yazi = yazi,
+                                    kategori = kategori
+                                }
+                                  ).ToList();
+
+                foreach (var item in yazilist)
+                {
+                    YaziDto y = new YaziDto();
+                    y.Id = item.yazi.Id;
+                    y.KategoriId = item.yazi.KategoriId;
+                    y.KategoriAdi = kategoriRep.Get(x => x.Id == item.yazi.KategoriId).Adi;
+                    y.KullaniciAdi = kullaniciRep.Get(x => x.Id == item.yazi.KullaniciId).KullaniciAdi;
+                    y.KullaniciResmi = kullaniciRep.Get(x => x.Id == item.yazi.KullaniciId).Resim;
+                    y.YaziBaslik = item.yazi.YaziBaslik;
+                    y.YaziIcerik = item.yazi.YaziIcerik;
+                    y.YaziTarih = item.yazi.YaziTarih;
+                    y.YaziKapakResim = item.yazi.YaziKapakResim;
+                    y.BegeniSayisi = begeniRep.GetList(x => x.YaziId == y.Id).Count();
+                    y.YorumSayisi = yorumRep.GetList(x => x.YaziId == y.Id).Count();
+                    ylist.Add(y);
+                }
+            }
+
+            return ylist;
+        }
         public void Update(Yazi yazi)
         {
-            yDal.Update(yazi);
+            Yazi uYazi = new Yazi();
+            uYazi = yDal.Get(x=>x.Id==yazi.Id);
+            uYazi.KategoriId = yazi.KategoriId;
+            uYazi.KullaniciId = yazi.KullaniciId;
+            uYazi.YaziBaslik = yazi.YaziBaslik;
+            uYazi.YaziIcerik = yazi.YaziIcerik;
+            uYazi.YaziTarih = DateTime.Now;
+            
+            yDal.Update(uYazi);
         }
 
     }

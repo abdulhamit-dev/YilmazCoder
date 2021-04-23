@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <Folder Include="Resources\Images\" />
+    <Folder Include="Resources\ProfilResmi\" />
+    <Folder Include="Resources\YaziKapakResim\" />
   </ItemGroup>
 
 </Project>

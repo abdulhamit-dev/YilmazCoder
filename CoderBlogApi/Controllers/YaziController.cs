@@ -45,6 +45,13 @@ namespace CoderBlogApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet("getlistkategoriyazi")]
+        public IActionResult GetListKategoriYazi(string kategoriAdi)
+        {
+            var result = yaziManager.GetListKategoriYazi(kategoriAdi);
+            return Ok(result);
+        }
+
         [HttpGet("get")]
         public IActionResult Get(int id)
         {
@@ -54,36 +61,44 @@ namespace CoderBlogApi.Controllers
 
         [HttpPost("YaziKaydet")]
         public IActionResult YaziKaydet([FromForm]YaziFormFileDto yaziForm)
-        {
-
-            Yazi yazi = JsonConvert.DeserializeObject<Yazi>(yaziForm.yazi); //JsonSerializer.Deserialize<Yazi>(yaziForm.yazi);
-
-            if (yazi.Id > 0)
-                yaziManager.Update(yazi);
-            else
-                yaziManager.Add(yazi);
-
-            var file = yaziForm.yaziKapakResim;
-            var folderName = Path.Combine("Resources", "Images");
-            var pathToSave = @"C:\GitRepo\CoderBlog\src\assets\yaziKapakResim";// Path.Combine(Directory.GetCurrentDirectory(), folderName);
-            if (file == null)
-                return Ok(true);
-            if (file.Length > 0)
             {
-                var fileName =ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                fileName = "yaziKapakResim_" + yazi.Id.ToString() + ".jpg";
-                //C:\Angular\CoderBlog\CoderBlog\src\assets\yaziKapakResim
-                var fullPath = Path.Combine(pathToSave, fileName);
-                var dbPath = Path.Combine(folderName, fileName);
-                using (var stream = new FileStream(fullPath, FileMode.Create))
-                {
-                    file.CopyTo(stream);
-                }
+            try
+            {
+                Yazi yazi = JsonConvert.DeserializeObject<Yazi>(yaziForm.yazi); //JsonSerializer.Deserialize<Yazi>(yaziForm.yazi);
 
-                yazi.YaziKapakResim = fileName;
-                yaziManager.Update(yazi);
-                return Ok(new { dbPath });
+                if (yazi.Id > 0)
+                    yaziManager.Update(yazi);
+                else
+                    yaziManager.Add(yazi);
+
+                var file = yaziForm.yaziKapakResim;
+                var folderName = Path.Combine("Resources", "YaziKapakResim");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                if (file == null)
+                    return Ok(true);
+                if (file.Length > 0)
+                {
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    fileName = "yaziKapakResim_" + yazi.Id.ToString() + ".jpg";
+                    //C:\Angular\CoderBlog\CoderBlog\src\assets\yaziKapakResim
+                    var fullPath = Path.Combine(pathToSave, fileName);
+                    var dbPath = Path.Combine(folderName, fileName);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+
+                    yazi.YaziKapakResim = fileName;
+                    yaziManager.Update(yazi);
+                    return Ok(true);
+                }
             }
+            catch (Exception ex)
+            {
+
+                return Ok(ex);
+            }
+         
 
             return Ok(true);
         }
@@ -92,7 +107,9 @@ namespace CoderBlogApi.Controllers
         public IActionResult YaziSil(Yazi yazi)
         {
             yaziManager.Delete(yazi);
-            return Ok(true);
+            var result = yaziManager.GetList(yazi.KullaniciId, 0);
+
+            return Ok(result);
         }
 
         [HttpGet("getlistyaziyorum")]

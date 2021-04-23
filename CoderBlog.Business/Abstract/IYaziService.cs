@@ -10,6 +10,7 @@ namespace CoderBlog.Business.Abstract
         IList<Yazi> GetList(int KullaniciId = 0, int KategoriId = 0);
         IList<YaziDto> GetListYeniler();
         IList<YaziDto> GetListTrendler();
+        IList<YaziDto> GetListKategoriYazi(string kategoriAdi);
         void Add(Yazi yazi);
         void Delete(Yazi yazi);
         void Update(Yazi yazi);
