@@ -19,5 +19,6 @@ namespace CoderBlog.Entities.Dtos
         public string YaziKapakResim { get; set; }
         public int YorumSayisi { get; set; }
         public int BegeniSayisi { get; set; }
+        
     }
 }
