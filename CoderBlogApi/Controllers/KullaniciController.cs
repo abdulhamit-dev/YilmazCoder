@@ -4,6 +4,8 @@ using CoderBlog.Entities;
 using CoderBlog.Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
+using System.Drawing;
 using System.IO;
 using System.Net.Http.Headers;
 
@@ -56,39 +58,32 @@ namespace CoderBlogApi.Controllers
         }
 
         [HttpPost("Duzenle")]
-        public IActionResult YaziKaydet([FromForm] KullaniciFormFileDto kullaniciForm)
+        public IActionResult Duzenle(KullaniciPostDto kulPost)
         {
-
-            Kullanici kullanici = JsonConvert.DeserializeObject<Kullanici>(kullaniciForm.kullanici); //JsonSerializer.Deserialize<Yazi>(yaziForm.yazi);
-
+            Kullanici kullanici = JsonConvert.DeserializeObject<Kullanici>(kulPost.kullanici); //JsonSerializer.Deserialize<Yazi>(yaziForm.yazi);
             kullanici = kulManager.GetById(kullanici.Id);
-
             kulManager.Update(kullanici);
 
-
-            var file = kullaniciForm.kullaniciResmi;
             var folderName = Path.Combine("Resources", "ProfilResmi");
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-            if (file == null)
-                return Ok(true);
-            if (file.Length > 0)
+       
+            if (kulPost.kulResimBase64!="")
             {
-                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                fileName = "profilResim_" + kullanici.Id.ToString() + ".jpg";
-                //C:\Angular\CoderBlog\CoderBlog\src\assets\yaziKapakResim
-                var fullPath = Path.Combine(pathToSave, fileName);
-                var dbPath = Path.Combine(folderName, fileName);
-                using (var stream = new FileStream(fullPath, FileMode.Create))
+                string dosya = Path.Combine(pathToSave, "profilResim_" + kullanici.Id.ToString() + ".jpg");
+                string[] base64Data = kulPost.kulResimBase64.Split(',');
+                byte[] data = Convert.FromBase64String(base64Data[1]);
+
+                using (var stream = new MemoryStream(data, 0, data.Length))
                 {
-                    file.CopyTo(stream);
+                    Image image = Image.FromStream(stream);
+                    image.Save(dosya, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    kullanici.Resim = "profilResim_" + kullanici.Id.ToString() + ".jpg";
+                    kulManager.Update(kullanici);
+                    return Ok(true);
                 }
-
-                kullanici.Resim = fileName;
-                kulManager.Update(kullanici);
-                return Ok(new { dbPath });
             }
-
             return Ok(true);
         }
+
     }
 }
