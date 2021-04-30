@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewData["Title"] = "Yeni";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"></script>
+
+@using CoderBlog.Entities
+@model List<Kategori>
+
+ 
+
+
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header"> Yeni Yazı</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label">Kategori</label>
+                                <select class="form-control form-control-sm">
+                                    @foreach (var item in (List<Kategori>)ViewBag.KategoriList)
+                                    {
+                                        <option value="@item.Id">@item.Adi</option>
+
+                                    }
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Başlık</label>
+                                <input class="form-control form-control-sm" id="txtBaslik" rows="3" />
+
+                            </div>
+                            <div class="mb-3">
+                                <input type="file" id="fileupload" />
+                                <div id="dvPreview"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <button class="btn btn-primary" onclick="KaydetIslemi();">Kaydet</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div id="main-cropper"></div>
+                            <input type="file" id="select" class="form-control" value="Choose Image" accept="image/*">
+                            <button id="btnupload" style="margin-top: 10px;" name="btnupload" class="btn btn-success">Crop</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+
+    <script>
+
+        function KaydetIslemi() {
+            $.post("PostTest", {
+                deger: "test"
+            }, function (data) {
+
+            });
+        }
+        //initialize Croppie
+        var basic = $('#main-cropper').croppie
+            ({
+                viewport: { width: 300, height: 300 },
+                boundary: { width: 500, height: 400 },
+                showZoomer: true,
+                url: '/DefaultImages/preview.jpg',
+                format: 'png' //'jpeg'|'png'|'webp'
+            });
+
+        //Reading the contents of the specified Blob or File
+        function readFile(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#main-cropper').croppie('bind', {
+                        url: e.target.result
+                    });
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Change Event to Read file content from File input
+        $('#select').on('change', function () { readFile(this); });
+
+        $(function () {
+            $("#fileupload").change(function () {
+                $("#dvPreview").html("");
+                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                if (regex.test($(this).val().toLowerCase())) {
+                    if (typeof (FileReader) != "undefined") {
+                        $("#dvPreview").show();
+                        $("#dvPreview").append("<img />");
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("#dvPreview img").attr("src", e.target.result);
+                            $("#dvPreview img").attr("style", "height:200px;width: 200px");
+                        }
+                        reader.readAsDataURL($(this)[0].files[0]);
+                    } else {
+                        alert("This browser does not support FileReader.");
+                    }
+                } else {
+                    alert("Please upload a valid image file.");
+                }
+            });
+        });
+    </script>
+

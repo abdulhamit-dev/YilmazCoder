@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@using CoderBlog.Entities.Dtos
+@using CoderBlog.Entities
+@model List<YaziDto>
+<div style="padding:10px">
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+    <div class="col-md-6 col-sm-12 col-lg-3">
+       <div class="card shadow-sm" style="margin:5px;padding:1px">
+              <a href="#"><img src="https://api.yilmazcoder.online/resources/yazikapakresim/@item.YaziKapakResim" style="width:100%;height:auto;" /></a> 
+               <div class="card-body">
+                   <div class="d-flex justify-content-start">
+                       <div>
+                           <img src="https://api.yilmazcoder.online/resources/profilResmi/@item.KullaniciResmi" style="width:35px;height:auto;border-radius:50%;float:left" />
+                        </div>
+                       <div class="p-1 bd-highlight" ><a href="#"><strong> @item.KullaniciAdi</strong></a> </div>
+                   </div>
+
+
+                   <br />
+                   <strong> @item.YaziBaslik</strong>
+                   <hr />
+                   <div class="d-flex justify-content-evenly">
+                       <div class="p-2 bd-highlight"><strong>@item.BegeniSayisi</strong>  <i class="far fa-heart"></i> </div>
+                       <div class="p-2 bd-highlight"><strong> @item.YorumSayisi</strong> <i class="far fa-comment"></i></div>
+                       @*<div class="p-2 bd-highlight"><span style="float:right">@item.YaziTarih.ToString("dd.MM")</span></div>*@
+                       <div class="p-2 bd-highlight"><span style="float:right"><a href="#">@item.KategoriAdi</a> </span></div>
+                   </div>
+                      
+               </div>
+       </div>
+    </div>
+    }
+</div>
+</div>
