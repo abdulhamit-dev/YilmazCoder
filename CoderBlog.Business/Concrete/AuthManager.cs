@@ -1,6 +1,7 @@
 ﻿using CoderBlog.Business.Abstract;
 using CoderBlog.Core.Entities.Concrete;
 using CoderBlog.Core.Utilities.Security.Jwt;
+using CoderBlog.DataAccess.Abstract;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,11 @@ namespace CoderBlog.Business.Concrete
 {
     public class AuthManager : IAuthService
     {
-        KullaniciManager kulManager = new KullaniciManager();
+        private IKullaniciService _kullaniciService;
+        public AuthManager(IKullaniciService kullaniciService)
+        {
+            _kullaniciService = kullaniciService;
+        }
         JwtHelper jwtHelper;
         public AuthManager(IConfiguration configuration)
         {
@@ -18,13 +23,13 @@ namespace CoderBlog.Business.Concrete
         }
         public AccessToken CreateAccessToken(Kullanici kullanici)
         {
-            List<Yetki> yetkiList = kulManager.YetkiList(kullanici);
+            List<Yetki> yetkiList = _kullaniciService.YetkiList(kullanici);
             return jwtHelper.CreateToken(kullanici,yetkiList);
         }
 
         public Kullanici Login(Kullanici kullanici)
         {
-            return kulManager.GetById(kullanici.KullaniciAdi, kullanici.Sifre);
+            return _kullaniciService.GetById(kullanici.KullaniciAdi, kullanici.Sifre);
         }
     }
 }

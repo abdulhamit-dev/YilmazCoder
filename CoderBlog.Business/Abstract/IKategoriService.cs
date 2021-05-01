@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CoderBlog.Business.Abstract
 {
-    interface IKategori
+    public interface IKategoriService
     {
         Kategori GetById(int yaziId);
         IList<Kategori> GetList();

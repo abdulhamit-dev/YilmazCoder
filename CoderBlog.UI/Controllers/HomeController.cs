@@ -1,4 +1,5 @@
-﻿using CoderBlog.Business.Concrete;
+﻿using CoderBlog.Business.Abstract;
+using CoderBlog.Business.Concrete;
 using CoderBlog.Entities.Dtos;
 using CoderBlog.UI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,22 +17,26 @@ namespace CoderBlog.UI.Controllers
 {
     public class HomeController : Controller
     {
-        YaziManager yaziManager = new YaziManager();
-
-        public async Task<IActionResult> IndexAsync()
+        private IYaziService _yaziService;
+        public HomeController(IYaziService yaziService)
         {
-            List<YaziDto> yaziList = new List<YaziDto>();
-            using (HttpClient client = new HttpClient())
-            {
-                var response = await client.GetAsync("https://api.yilmazcoder.online/api/yazi/getlistyeniler");
-                if (response != null)
-                {
-                    var jsonString = await response.Content.ReadAsStringAsync();
-                    yaziList=  JsonConvert.DeserializeObject<List<YaziDto>>(jsonString);
+            _yaziService = yaziService;
+        }
+        public IActionResult Index()
+        {
+            //List<YaziDto> yaziList = new List<YaziDto>();
+            //using (HttpClient client = new HttpClient())
+            //{
+            //    var response = await client.GetAsync("https://api.yilmazcoder.online/api/yazi/getlistyeniler");
+            //    if (response != null)
+            //    {
+            //        var jsonString = await response.Content.ReadAsStringAsync();
+            //        yaziList=  JsonConvert.DeserializeObject<List<YaziDto>>(jsonString);
 
-                }
-            }
-            return View(yaziList);
+            //    }
+            //}
+
+            return View(_yaziService.GetListYeniler());
         }
 
         public IActionResult Privacy()

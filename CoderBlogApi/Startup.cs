@@ -1,3 +1,7 @@
+using CoderBlog.Business.Abstract;
+using CoderBlog.Business.Concrete;
+using CoderBlog.DataAccess.Abstract;
+using CoderBlog.DataAccess.Concrete.EntityFramework;
 using CoderBlog.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -34,6 +38,7 @@ namespace CoderBlogApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddCors(options =>
             {
                 options.AddPolicy("EnableCORS", builder =>

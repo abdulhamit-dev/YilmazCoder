@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CoderBlog.Business.Abstract
 {
-    public interface IYorum
+    public interface IYorumService
     {
         Yorum GetById(int yorumId);
         IList<YorumDto> GetList(int yaziId);

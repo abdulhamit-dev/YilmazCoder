@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CoderBlog.DataAccess\CoderBlog.DataAccess.csproj" />
     <ProjectReference Include="..\CoderBlog.Entities\CoderBlog.Entities.csproj" />
   </ItemGroup>

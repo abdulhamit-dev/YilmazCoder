@@ -1,10 +1,11 @@
-﻿using System;
+﻿using CoderBlog.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CoderBlog.Entities
 {
-    public class Begeni
+    public class Begeni:IEntity
     {
         public int Id { get; set; }
         public int YaziId { get; set; }

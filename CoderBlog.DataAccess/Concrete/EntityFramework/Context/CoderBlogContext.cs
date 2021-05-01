@@ -2,7 +2,7 @@
 using CoderBlog.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoderBlog.DataAccess.Concrete
+namespace CoderBlog.DataAccess.Concrete.EntityFramework.Context
 {
     public class CoderBlogContext : DbContext
     {

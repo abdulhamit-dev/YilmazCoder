@@ -8,6 +8,7 @@ namespace CoderBlog.Business.Abstract
 {
     public interface IKullaniciService
     {
+        
         Kullanici GetById(int kulId);
         Kullanici GetById(string kulAdi,string sifre);
         IList<Kullanici> GetList();

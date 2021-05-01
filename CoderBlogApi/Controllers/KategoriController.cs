@@ -1,4 +1,5 @@
-﻿using CoderBlog.Business.Concrete;
+﻿using CoderBlog.Business.Abstract;
+using CoderBlog.Business.Concrete;
 using CoderBlog.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,19 +9,24 @@ namespace CoderBlogApi.Controllers
     [ApiController]
     public class KategoriController : ControllerBase
     {
-        KategoriManager kManager = new KategoriManager();
+        private IKategoriService _kategoriService;
+        public KategoriController(IKategoriService kategoriService)
+        {
+            _kategoriService = kategoriService;
+        }
+
 
         [HttpGet("getlist")]
         public IActionResult GetList()
         {
-            var result = kManager.GetList();
+            var result = _kategoriService.GetList();
             return Ok(result);
         }
 
         [HttpGet("get")]
         public IActionResult GetList(int Id)
         {
-            var result = kManager.GetById(Id);
+            var result = _kategoriService.GetById(Id);
             return Ok(result);
         }
 
@@ -29,9 +35,9 @@ namespace CoderBlogApi.Controllers
         {
 
             if (kategori.Id > 0)
-                kManager.Update(kategori);
+                _kategoriService.Update(kategori);
             else
-                kManager.Add(kategori);
+                _kategoriService.Add(kategori);
 
             return Ok(true);
         }
@@ -39,7 +45,7 @@ namespace CoderBlogApi.Controllers
         [HttpPost("Sil")]
         public IActionResult KategoriSil(Kategori kategori)
         {
-            kManager.Delete(kategori);
+            _kategoriService.Delete(kategori);
 
             return Ok(true);
         }

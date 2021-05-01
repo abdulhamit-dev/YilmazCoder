@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CoderBlog.Business.Abstract
 {
-    public interface IBegeni
+    public interface IBegeniService
     {
         Begeni GetById(int begeniId);
         Begeni GetYaziBegeni(int yaziId, int kulId);

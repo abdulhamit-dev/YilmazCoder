@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CoderBlog.Core.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,62 +7,110 @@ using System.Linq.Expressions;
 
 namespace CoderBlog.Core.DataAccess.EntityFramework
 {
-    public class EfRepositoryBase<T, TContext> 
-        where T : class,new()
-        where TContext : DbContext,new()
+    public class EfRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity>
+        where TEntity : class, IEntity, new()
+        where TContext : DbContext, new()
     {
-        private DbContext db;// = new CoderBlogContext();
-        private DbSet<T> dbSet;
 
-        public EfRepositoryBase()
+        //private DbContext db;// = new CoderBlogContext();
+        //private DbSet<T> dbSet;
+
+        //public EfRepositoryBase()
+        //{
+        //    dbSet = db.Set<T>();
+        //}
+
+        //public EfRepositoryBase(TContext context)
+        //{
+        //    db = context;
+        //    dbSet = db.Set<T>();
+        //}
+
+        //public T Get(Expression<Func<T, bool>> where)
+        //{
+        //    return dbSet.FirstOrDefault(where);
+        //}
+        //public List<T> GetList()
+        //{
+        //    return dbSet.ToList();
+        //}
+        //public List<T> OrderByDescendingList(Expression<Func<T, bool>> where)
+        //{
+        //    return dbSet.OrderByDescending(where).ToList();
+        //}
+        //public T OrderByDescendingFirst(Expression<Func<T, bool>> where)
+        //{
+        //    return dbSet.OrderByDescending(where).ToList().First();
+        //}
+        //public List<T> GetList(Expression<Func<T, bool>> where)
+        //{
+        //    return dbSet.Where(where).ToList();
+
+        //}
+        //public int Add(T obj)
+        //{
+        //    dbSet.Add(obj);
+        //    return Save();
+        //}
+        //public int Update(T obj)
+        //{
+        //    return Save();
+        //}
+        //public int Delete(T obj)
+        //{
+        //    dbSet.Remove(obj);
+        //    return Save();
+        //}
+        //public int Save()
+        //{
+        //    return db.SaveChanges();
+        //}
+        public void Add(TEntity entity)
         {
-            dbSet = db.Set<T>();
+            using (var context = new TContext())
+            {
+                var addedEntity = context.Entry(entity);
+                addedEntity.State = EntityState.Added;
+                context.SaveChanges();
+            }
         }
 
-        public EfRepositoryBase(TContext context)
+        public void Delete(TEntity entity)
         {
-            db = context;
-            dbSet = db.Set<T>();
+            using (var context = new TContext())
+            {
+                var deletedEntity = context.Entry(entity);
+                deletedEntity.State = EntityState.Deleted;
+                context.SaveChanges();
+            }
         }
 
-        public T Get(Expression<Func<T, bool>> where)
+        public TEntity Get(Expression<Func<TEntity, bool>> filter)
         {
-            return dbSet.FirstOrDefault(where);
+            using (var context = new TContext())
+            {
+                return context.Set<TEntity>().SingleOrDefault(filter);
+            }
         }
-        public List<T> GetList()
-        {
-            return dbSet.ToList();
-        }
-        public List<T> OrderByDescendingList(Expression<Func<T, bool>> where)
-        {
-            return dbSet.OrderByDescending(where).ToList();
-        }
-        public T OrderByDescendingFirst(Expression<Func<T, bool>> where)
-        {
-            return dbSet.OrderByDescending(where).ToList().First();
-        }
-        public List<T> GetList(Expression<Func<T, bool>> where)
-        {
-            return dbSet.Where(where).ToList();
 
-        }
-        public int Add(T obj)
+        public IList<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null)
         {
-            dbSet.Add(obj);
-            return Save();
+            using (var context = new TContext())
+            {
+                return filter == null
+                    ? context.Set<TEntity>().ToList()
+                    : context.Set<TEntity>().Where(filter).ToList();
+            }
         }
-        public int Update(T obj)
+
+        public void Update(TEntity entity)
         {
-            return Save();
-        }
-        public int Delete(T obj)
-        {
-            dbSet.Remove(obj);
-            return Save();
-        }
-        public int Save()
-        {
-            return db.SaveChanges();
+            using (var context = new TContext())
+            {
+                var updatedEntity = context.Entry(entity);
+                updatedEntity.State = EntityState.Modified;
+                context.SaveChanges();
+            }
         }
     }
 }

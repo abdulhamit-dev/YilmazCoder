@@ -1,4 +1,5 @@
-﻿using CoderBlog.Business.Concrete;
+﻿using CoderBlog.Business.Abstract;
+using CoderBlog.Business.Concrete;
 using CoderBlog.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,20 +14,24 @@ namespace CoderBlogApi.Controllers
     [ApiController]
     public class BegenController : ControllerBase
     {
-        BegeniManager manager = new BegeniManager();
+        private IBegeniService _begeniService;
+        public BegenController(IBegeniService begeniService)
+        {
+            _begeniService = begeniService;
+        }
 
         [HttpPost("Kaydet")]
         public IActionResult Kaydet(Begeni begen)
         {
-            Begeni begeni = manager.GetYaziBegeni(begen.YaziId,begen.KullaniciId);
+            Begeni begeni = _begeniService.GetYaziBegeni(begen.YaziId,begen.KullaniciId);
             if (begeni==null)
             {
-                manager.Add(begen);
+                _begeniService.Add(begen);
                 return Ok(true);
             }
             else
             {
-                manager.Delete(begeni);
+                _begeniService.Delete(begeni);
                 return Ok(false);
             }
         }
@@ -34,7 +39,7 @@ namespace CoderBlogApi.Controllers
         [HttpPost("Sil")]
         public IActionResult Sil(Begeni begen)
         {
-            manager.Delete(begen);
+            _begeniService.Delete(begen);
             return Ok(true);
         }
     }

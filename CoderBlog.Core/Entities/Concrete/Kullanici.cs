@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CoderBlog.Core.Entities.Concrete
 {
-    public class Kullanici
+    public class Kullanici : IEntity
     {
         public int Id { get; set; }
         public string KullaniciAdi { get; set; }

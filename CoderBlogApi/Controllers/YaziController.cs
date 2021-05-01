@@ -1,4 +1,5 @@
-﻿using CoderBlog.Business.Concrete;
+﻿using CoderBlog.Business.Abstract;
+using CoderBlog.Business.Concrete;
 using CoderBlog.Entities;
 using CoderBlog.Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
@@ -18,45 +19,50 @@ namespace CoderBlogApi.Controllers
     [ApiController]
     public class YaziController : ControllerBase
     {
-        YaziManager yaziManager = new YaziManager();
-        YorumManager yorumManager = new YorumManager();
+        private IYaziService _yaziService;
+        private IYorumService _yorumService;
+        public YaziController(IYaziService yaziService,IYorumService yorumService)
+        {
+            _yaziService = yaziService;
+            _yorumService = yorumService;
+        }
         [HttpGet("getlist")]
         public IActionResult GetList()
         {
-            var result = yaziManager.GetList();
+            var result = _yaziService.GetList();
             return Ok(result);
         }
         [HttpGet("getlistYeniler")]
         //[Authorize(Roles = "Admin")]
         public IActionResult GetListYeniler()
         {
-            var result = yaziManager.GetListYeniler();
+            var result = _yaziService.GetListYeniler();
             return Ok(result);
         }
         [HttpGet("getlistTrendler")]
         public IActionResult GetListTrendler()
         {
-            var result = yaziManager.GetListTrendler();
+            var result = _yaziService.GetListTrendler();
             return Ok(result);
         }
         [HttpGet("getlistfilter")]
         public IActionResult GetListFilter(int kullaniciId,int kategoriId)
         {
-            var result = yaziManager.GetList(kullaniciId,kategoriId);
+            var result = _yaziService.GetList(kullaniciId,kategoriId);
             return Ok(result);
         }
 
         [HttpGet("getlistkategoriyazi")]
         public IActionResult GetListKategoriYazi(string kategoriAdi)
         {
-            var result = yaziManager.GetListKategoriYazi(kategoriAdi);
+            var result = _yaziService.GetListKategoriYazi(kategoriAdi);
             return Ok(result);
         }
 
         [HttpGet("get")]
         public IActionResult Get(int id)
         {
-            var result = yaziManager.GetById(id);
+            var result = _yaziService.GetById(id);
             return Ok(result);
         }
 
@@ -69,9 +75,9 @@ namespace CoderBlogApi.Controllers
                 Yazi yazi = JsonConvert.DeserializeObject<Yazi>(yaziForm.yazi); 
 
                 if (yazi.Id > 0)
-                    yaziManager.Update(yazi);
+                    _yaziService.Update(yazi);
                 else
-                    yaziManager.Add(yazi);
+                    _yaziService.Add(yazi);
 
                 var folderName = Path.Combine("Resources", "YaziKapakResim");
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
@@ -87,7 +93,7 @@ namespace CoderBlogApi.Controllers
                         Image image = Image.FromStream(stream);
                         image.Save(dosya, System.Drawing.Imaging.ImageFormat.Jpeg);
                         yazi.YaziKapakResim = "yaziKapakResim_" + yazi.Id.ToString() + ".jpg";
-                        yaziManager.Update(yazi);
+                        _yaziService.Update(yazi);
                         return Ok(true);
                     }
                 }
@@ -151,8 +157,8 @@ namespace CoderBlogApi.Controllers
         [HttpPost("Sil")]
         public IActionResult YaziSil(Yazi yazi)
         {
-            yaziManager.Delete(yazi);
-            var result = yaziManager.GetList(yazi.KullaniciId, 0);
+            _yaziService.Delete(yazi);
+            var result = _yaziService.GetList(yazi.KullaniciId, 0);
 
             return Ok(result);
         }
@@ -160,7 +166,7 @@ namespace CoderBlogApi.Controllers
         [HttpGet("getlistyaziyorum")]
         public IActionResult GetListYaziYorum(int yaziId)
         {
-            var result = yorumManager.GetList(yaziId);
+            var result = _yorumService.GetList(yaziId);
             return Ok(result);
         }
 

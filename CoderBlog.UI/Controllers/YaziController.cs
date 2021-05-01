@@ -1,4 +1,5 @@
-﻿using CoderBlog.Business.Concrete;
+﻿using CoderBlog.Business.Abstract;
+using CoderBlog.Business.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,10 +10,17 @@ namespace CoderBlog.UI.Controllers
 {
     public class YaziController : Controller
     {
-        KategoriManager kategoriManager = new KategoriManager();
+        private IYaziService _yaziService;
+        private IKategoriService _kategoriService;
+        public YaziController(IYaziService yaziService,IKategoriService kategoriService)
+        {
+            _yaziService = yaziService;
+            _kategoriService = kategoriService;
+        }
         public IActionResult Yeni()
         {
-            ViewBag.KategoriList = kategoriManager.GetList();
+            ViewBag.KategoriList = _kategoriService.GetList();
+            
             return View();
         }
 

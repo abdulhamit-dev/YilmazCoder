@@ -1,4 +1,5 @@
-﻿using CoderBlog.Business.Concrete;
+﻿using CoderBlog.Business.Abstract;
+using CoderBlog.Business.Concrete;
 using CoderBlog.Core.Entities.Concrete;
 using CoderBlog.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -16,12 +17,16 @@ namespace CoderBlogApi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        KullaniciManager manager = new KullaniciManager();
+
+        private IKullaniciService _kullaniciService;
         AuthManager authManager;
 
-        public AuthController(IConfiguration conf)
+ 
+
+        public AuthController(IConfiguration conf, IKullaniciService kullaniciService)
         {
             authManager = new AuthManager(conf);
+            _kullaniciService = kullaniciService;
         }
 
         [HttpPost]

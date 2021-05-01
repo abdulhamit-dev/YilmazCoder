@@ -1,4 +1,5 @@
-﻿using CoderBlog.Business.Concrete;
+﻿using CoderBlog.Business.Abstract;
+using CoderBlog.Business.Concrete;
 using CoderBlog.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +14,16 @@ namespace CoderBlogApi.Controllers
     [ApiController]
     public class YorumController : ControllerBase
     {
-        YorumManager manager = new YorumManager();
+        private IYorumService _yorumService;
+        public YorumController(IYorumService yorumService)
+        {
+            _yorumService = yorumService;
+        }
 
         [HttpPost("Kaydet")]
         public IActionResult Kaydet(Yorum yorum)
         {
-            manager.Add(yorum);
+            _yorumService.Add(yorum);
             return Ok(true);
         }
     }

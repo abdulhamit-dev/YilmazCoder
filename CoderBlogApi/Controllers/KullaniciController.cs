@@ -1,4 +1,5 @@
-﻿using CoderBlog.Business.Concrete;
+﻿using CoderBlog.Business.Abstract;
+using CoderBlog.Business.Concrete;
 using CoderBlog.Core.Entities.Concrete;
 using CoderBlog.Entities;
 using CoderBlog.Entities.Dtos;
@@ -15,36 +16,40 @@ namespace CoderBlogApi.Controllers
     [ApiController]
     public class KullaniciController : ControllerBase
     {
-        KullaniciManager kulManager = new KullaniciManager();
+        private IKullaniciService _kullaniciService;
+        public KullaniciController(IKullaniciService kullaniciService)
+        {
+            _kullaniciService = kullaniciService;
+        }
 
         [HttpGet("getlist")]
         public IActionResult GetList()
         {
-            var result = kulManager.GetList();
+            var result = _kullaniciService.GetList();
             return Ok(result);
         }
 
         [HttpGet("get")]
         public IActionResult GetList(int Id)
         {
-            var result = kulManager.GetById(Id);
+            var result = _kullaniciService.GetById(Id);
             return Ok(result);
         }
 
         [HttpPost("Kaydet")]
         public IActionResult KullaniciKaydet(Kullanici kullanici)
         {
-            Kullanici kul = kulManager.GetById(kullanici.Id);
+            Kullanici kul = _kullaniciService.GetById(kullanici.Id);
 
 
             if (kul!=null)
             {
                 kul.Ad = kullanici.Ad;
                 kul.Soyad = kullanici.Soyad;
-                kulManager.Update(kul);
+                _kullaniciService.Update(kul);
             }
             else
-                kulManager.Add(kullanici);
+                _kullaniciService.Add(kullanici);
 
             return Ok(true);
         }
@@ -52,7 +57,7 @@ namespace CoderBlogApi.Controllers
         [HttpPost("Sil")]
         public IActionResult KullaniciSil(Kullanici kullanici)
         {
-            kulManager.Delete(kullanici);
+            _kullaniciService.Delete(kullanici);
 
             return Ok(true);
         }
@@ -61,8 +66,8 @@ namespace CoderBlogApi.Controllers
         public IActionResult Duzenle(KullaniciPostDto kulPost)
         {
             Kullanici kullanici = JsonConvert.DeserializeObject<Kullanici>(kulPost.kullanici); //JsonSerializer.Deserialize<Yazi>(yaziForm.yazi);
-            kullanici = kulManager.GetById(kullanici.Id);
-            kulManager.Update(kullanici);
+            kullanici = _kullaniciService.GetById(kullanici.Id);
+            _kullaniciService.Update(kullanici);
 
             var folderName = Path.Combine("Resources", "ProfilResmi");
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
@@ -78,7 +83,7 @@ namespace CoderBlogApi.Controllers
                     Image image = Image.FromStream(stream);
                     image.Save(dosya, System.Drawing.Imaging.ImageFormat.Jpeg);
                     kullanici.Resim = "profilResim_" + kullanici.Id.ToString() + ".jpg";
-                    kulManager.Update(kullanici);
+                    _kullaniciService.Update(kullanici);
                     return Ok(true);
                 }
             }
