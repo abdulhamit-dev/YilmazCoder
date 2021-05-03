@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-12 col-md-4 col-sm-2"></div>
+    <div class="col-12 col-md-4 col-sm-8">
+        <div class="card">
+            <div class="card-header">Giriş</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="txtKulAdi" class="form-label">Kullanıcı Adı</label>
+                    <input class="form-control" type="text"  id="txtKulAdi" />
+                </div>
+                <div class="mb-3">
+                    <label for="txtSifre" class="form-label">Şifre</label>
+                    <input class="form-control" type="password"  id="txtSifre" />
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary" onclick="Giris()">Giriş</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-12 col-md-4 col-sm-2"></div>
+</div>
+
+
+<script>
+
+    function Giris() {
+        $.post('Giris',
+            {
+                kulAdi: $('#txtKulAdi').val(),   
+                sifre: $('#txtSifre').val()
+            },
+            function (rv) {
+                if (rv) {
+                    window.location = "/";
+                }
+            });
+    }
+
+    function Cikis() {
+        $.post('Cikis',
+            {
+                kulAdi: $('#txtKulAdi').val(),
+                sifre: $('#txtSifre').val()
+            },
+            function (rv) {
+                if (rv) {
+                    window.location = "/";
+                }
+            });
+    }
+</script>
+
+

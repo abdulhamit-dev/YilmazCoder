@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,10 +25,17 @@ namespace CoderBlog.UI
         {
             services.AddControllersWithViews();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x => {
+                x.LoginPath = "/auth/login";
+                x.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -41,6 +49,8 @@ namespace CoderBlog.UI
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

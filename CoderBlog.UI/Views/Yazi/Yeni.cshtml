@@ -1,87 +1,96 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Yeni";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"></script>
-
+<script src="https://cdn.tiny.cloud/1/11phgs80o251qv8pzel7b38mek84h0hmxbqshck6999e6z05/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script></script>
 @using CoderBlog.Entities
 @model List<Kategori>
 
- 
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header"> Yeni Yazı</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label">Kategori</label>
+                            <select class="form-control form-control-sm" id="kategoriList">
+                                @foreach (var item in (List<Kategori>)ViewBag.KategoriList)
+                                {
+                                    <option value="@item.Id">@item.Adi</option>
 
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Başlık</label>
+                            <input class="form-control form-control-sm" id="txtBaslik" rows="3" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Yazı Kapak Resmi Seçiniz</label>
+                            <a class="button actionSelect">
+                                <input type="file" id="select" value="Choose Image" accept="image/*">
+                            </a>
+                            <div id="main-cropper" style="overflow-x:scroll;margin:5px"></div>
 
-
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header"> Yeni Yazı</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="mb-3">
-                                <label class="form-label">Kategori</label>
-                                <select class="form-control form-control-sm">
-                                    @foreach (var item in (List<Kategori>)ViewBag.KategoriList)
-                                    {
-                                        <option value="@item.Id">@item.Adi</option>
-
-                                    }
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Başlık</label>
-                                <input class="form-control form-control-sm" id="txtBaslik" rows="3" />
-
-                            </div>
-                            <div class="mb-3">
-                                <input type="file" id="fileupload" />
-                                <div id="dvPreview"></div>
-                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <button class="btn btn-primary" onclick="KaydetIslemi();">Kaydet</button>
-                        </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <textarea id="txtyaziIcerik"></textarea>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div id="main-cropper"></div>
-                            <input type="file" id="select" class="form-control" value="Choose Image" accept="image/*">
-                            <button id="btnupload" style="margin-top: 10px;" name="btnupload" class="btn btn-success">Crop</button>
-                        </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-md-5">
+                        <button class="btn btn-success " onclick="Kaydet()"><i class="fas fa-save"></i> Kaydet</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-2"></div>
     </div>
+    <div class="col-md-2"></div>
+</div>
 
 
-    <script>
+<script>
+    tinymce.init({ selector: 'textarea', height:500 });
 
-        function KaydetIslemi() {
-            $.post("PostTest", {
-                deger: "test"
-            }, function (data) {
 
-            });
-        }
-        //initialize Croppie
-        var basic = $('#main-cropper').croppie
-            ({
-                viewport: { width: 300, height: 300 },
-                boundary: { width: 500, height: 400 },
-                showZoomer: true,
-                url: '/DefaultImages/preview.jpg',
-                format: 'png' //'jpeg'|'png'|'webp'
-            });
+    function Kaydet() {
+        tinymce.triggerSave()
+        basic.croppie('result', 'blob').then(function (yaziKapakResim) {
 
-        //Reading the contents of the specified Blob or File
-        function readFile(input) {
+            var yazi = {
+                yaziBaslik: $('#txtBaslik').val(),
+                yaziIcerik: $('#txtyaziIcerik').val(),
+                kategoriId: $('#kategoriList').val()
+            }
+            var formData = new FormData();
+            formData.append('yazi', JSON.stringify(yazi));
+            formData.append('yaziKapak', yaziKapakResim);
+
+            var request = new XMLHttpRequest();
+            request.open('POST', '@Url.Action("Kaydet","Yazi")');
+            request.send(formData);
+        });
+    }
+
+    var basic = $('#main-cropper').croppie({
+        viewport: { width: 400, height: 200 },
+        boundary: { width: 500, height: 250 },
+        showZoomer: false
+    });
+
+    function readFile(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 
@@ -90,34 +99,15 @@
                         url: e.target.result
                     });
                 }
+
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        // Change Event to Read file content from File input
-        $('#select').on('change', function () { readFile(this); });
+    $('.actionSelect input').on('change', function () { readFile(this); });
 
-        $(function () {
-            $("#fileupload").change(function () {
-                $("#dvPreview").html("");
-                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
-                if (regex.test($(this).val().toLowerCase())) {
-                    if (typeof (FileReader) != "undefined") {
-                        $("#dvPreview").show();
-                        $("#dvPreview").append("<img />");
-                        var reader = new FileReader();
-                        reader.onload = function (e) {
-                            $("#dvPreview img").attr("src", e.target.result);
-                            $("#dvPreview img").attr("style", "height:200px;width: 200px");
-                        }
-                        reader.readAsDataURL($(this)[0].files[0]);
-                    } else {
-                        alert("This browser does not support FileReader.");
-                    }
-                } else {
-                    alert("Please upload a valid image file.");
-                }
-            });
-        });
-    </script>
+
+
+
+</script>
 

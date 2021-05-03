@@ -24,23 +24,18 @@ namespace CoderBlog.UI.Controllers
         }
         public IActionResult Index()
         {
-            //List<YaziDto> yaziList = new List<YaziDto>();
-            //using (HttpClient client = new HttpClient())
-            //{
-            //    var response = await client.GetAsync("https://api.yilmazcoder.online/api/yazi/getlistyeniler");
-            //    if (response != null)
-            //    {
-            //        var jsonString = await response.Content.ReadAsStringAsync();
-            //        yaziList=  JsonConvert.DeserializeObject<List<YaziDto>>(jsonString);
 
-            //    }
-            //}
-
+            var aktifKullanici = User.Claims;
+            foreach (var item in aktifKullanici)
+            {
+                string deger = item.Value;
+            }
             return View(_yaziService.GetListYeniler());
         }
 
         public IActionResult Privacy()
         {
+
             return View();
         }
 
