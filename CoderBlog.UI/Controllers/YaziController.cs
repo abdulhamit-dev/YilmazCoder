@@ -23,13 +23,15 @@ namespace CoderBlog.UI.Controllers
         private IYaziService _yaziService;
         private IKategoriService _kategoriService;
         private IYorumService _yorumService;
+        private IBegeniService _begeniService;
         private readonly IMapper _mapper;
 
-        public YaziController(IYaziService yaziService,IKategoriService kategoriService,IYorumService yorumService,IMapper mapper)
+        public YaziController(IYaziService yaziService, IKategoriService kategoriService, IYorumService yorumService, IMapper mapper, IBegeniService begeniService)
         {
             _yaziService = yaziService;
             _kategoriService = kategoriService;
             _yorumService = yorumService;
+            _begeniService = begeniService;
             _mapper = mapper;
         }
 
@@ -62,6 +64,27 @@ namespace CoderBlog.UI.Controllers
             _yorumService.Add(yorum);
 
             return PartialView("_YorumListpp",_yorumService.GetList(yaziId));
+        }
+
+        [HttpPost]
+        public IActionResult Begen(int yaziId,int begeniSayisi)
+        {
+            int kulId= Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            Begeni begeni = _begeniService.GetYaziBegeni(yaziId, kulId);
+            if (begeni == null)
+            {
+                begeni = new Begeni();
+                begeni.KayitTarihi = DateTime.Now;
+                begeni.KullaniciId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                begeni.YaziId = yaziId;
+                _begeniService.Add(begeni);
+                return Json(begeniSayisi+1);
+            }
+            else
+            {
+                _begeniService.Delete(begeni);
+                return Json(begeniSayisi -1);
+            }
         }
 
         #endregion
@@ -152,10 +175,13 @@ namespace CoderBlog.UI.Controllers
                     Image image = Image.FromStream(stream);
                     image.Save(dosya, System.Drawing.Imaging.ImageFormat.Jpeg);
                     yazi.YaziKapakResim = "yaziKapakResim_" + yazi.Id.ToString() + ".jpeg";
-
                     _yaziService.Update(yazi);
-                    return Ok(true);
                 }
+            }
+            else
+            {
+               
+                _yaziService.Update(yazi);
             }
 
             return Json(true);

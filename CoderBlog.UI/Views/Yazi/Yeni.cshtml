@@ -80,7 +80,7 @@
             resimSecimi: false
         }
 
-        if (yazi.yaziBaslik == "" && yazi.yaziBaslik.length > 15) {
+        if (yazi.yaziBaslik == "" || yazi.yaziBaslik.length < 15 ) {
             alert("Yazi başlık boş ve 15 karakterden az olamaz")
             return;
         }

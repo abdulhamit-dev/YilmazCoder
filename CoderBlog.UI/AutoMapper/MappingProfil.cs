@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using CoderBlog.Core.Entities.Concrete;
 using CoderBlog.Entities;
 using CoderBlog.Entities.Dtos;
+using CoderBlog.UI.Models.Kullanici;
 using CoderBlog.UI.Models.Yazi;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,9 @@ namespace CoderBlog.UI.AutoMapper
 
             CreateMap<YaziDto, YaziVM>();
             CreateMap<YaziVM, YaziDto>();
+
+            CreateMap<Kullanici, KullaniciVM>();
+            CreateMap<KullaniciVM, Kullanici>();
 
         }
     }

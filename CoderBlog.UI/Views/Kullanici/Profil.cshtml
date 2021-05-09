@@ -1,0 +1,102 @@
+﻿@using CoderBlog.UI.Models.Kullanici
+@model KullaniciVM
+
+@{
+    ViewData["Title"] = "Profil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"></script>
+
+<div class="container-lg">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        <label for="txtAd" class="form-label">Ad</label>
+                        <input type="text" class="form-control" id="txtAd" value="@Model.Ad">
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtSoyad" class="form-label">Soyad</label>
+                        <input type="text" class="form-control" id="txtSoyad" value="@Model.Soyad">
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtEposta" class="form-label">E-posta</label>
+                        <input type="email" class="form-control" id="txtEposta" placeholder="name@example.com" value="@Model.Eposta">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Profil Resmi Seçiniz</label>
+                        <a class="button actionSelect">
+                            <input type="file" id="select" value="Choose Image" accept="image/*">
+                        </a>
+                        <img class="my-image" id="main-cropper" src="~/Resources/ProfilResmi/@Model.Resim" style="overflow-x:scroll;margin:5px" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-primary" onclick="ProfilKaydet()">Kaydet</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var kapakResimBase64 = "";
+    function ProfilKaydet() {
+
+        var kullanici = {
+            ad: $('#txtAd').val(),
+            soyad: $('#txtSoyad').val(),
+            eposta: $('#txtEposta').val(),
+            resimBase64: "",
+            resimSecimi: false
+        }
+
+
+        if (kapakResimBase64 == "") {
+            kullanici['resimSecimi'] = false
+            ProfilDuzenle(kullanici);
+        } else {
+            imageCroopie.croppie('result', 'base64').then(function (imagedata) {
+                kullanici['resimSecimi'] = true
+                kullanici['resimBase64'] = imagedata
+                ProfilDuzenle(kullanici)
+            });
+        }
+
+
+    }
+
+    function ProfilDuzenle(kullanici) {
+        $.post("duzenle",
+            { kullaniciJson: JSON.stringify(kullanici) }
+            , function (result) {
+                //window.location = "//yazilarim";
+            });
+    }
+
+    var imageCroopie = $('#main-cropper').croppie({
+        viewport: { width: 250, height: 250 },
+        boundary: { width: 750, height: 500 },
+        showZoomer: false,
+        enableExif: true
+    });
+    function readFile(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                kapakResimBase64 = e.target.result;
+                $('#main-cropper').croppie('bind', {
+                    url: e.target.result
+                });
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $('.actionSelect input').on('change', function () { readFile(this); });
+</script>
+

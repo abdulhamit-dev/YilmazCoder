@@ -27,7 +27,7 @@
                     <div class="col-md-3">
                         <div class="d-flex justify-content-start">
                             <div>
-                                <img src="https://api.yilmazcoder.online/resources/profilResmi/@Model.KullaniciResmi" style="width:35px;height:auto;border-radius:50%;float:left" />
+                                <img src="~/resources/profilResmi/@Model.KullaniciResmi" style="width:35px;height:auto;border-radius:50%;float:left" />
                             </div>
                             <div class="p-1 bd-highlight"><a href="#"><strong> @Model.KullaniciAdi</strong></a> </div>
                         </div>
@@ -46,6 +46,23 @@
                 <div class="text-center" style="font-size:xx-large"><strong>@Model.YaziBaslik</strong></div>
                 <div class="card-body" style="padding:20px">
                     @Html.Raw(Model.YaziIcerik)
+
+                    @if (User.HasClaim(x => x.Type == System.Security.Claims.ClaimTypes.Name))
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn btn-light" onclick="Begen('@Model.Id')"> <i class="far fa-heart" style="font-size: 1rem;"></i> <span id="begeniSayisi">@Model.BegeniSayisi</span>  Beğen </button>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span > <i class="far fa-heart" style="font-size: 1rem;"></i> <span id="begeniSayisi">@Model.BegeniSayisi</span>  Beğeni </span>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
             <br />
@@ -98,6 +115,17 @@
                 yorumAciklama: $('#txtYorum').val()
             }, function (data) {
                 $('#yorumContent').html(data)
+            });
+    }
+
+    function Begen(yaziId) {
+        var begeniSay = $('#begeniSayisi').text()
+        $.post('Begen',
+            {
+                yaziId: yaziId,
+                begenisayisi: begeniSay
+            }, function (data) {
+                $('#begeniSayisi').text(data)
             });
     }
 </script>
