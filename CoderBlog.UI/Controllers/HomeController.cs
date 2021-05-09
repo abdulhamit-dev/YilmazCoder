@@ -25,19 +25,15 @@ namespace CoderBlog.UI.Controllers
         public IActionResult Index()
         {
 
-            var aktifKullanici = User.Claims;
-            foreach (var item in aktifKullanici)
-            {
-                string deger = item.Value;
-            }
+            //var aktifKullanici = User.Claims;
+            //foreach (var item in aktifKullanici)
+            //{
+            //    string deger = item.Value;
+            //}
             return View(_yaziService.GetListYeniler());
         }
 
-        public IActionResult Privacy()
-        {
-
-            return View();
-        }
+      
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

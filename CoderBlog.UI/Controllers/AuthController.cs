@@ -23,6 +23,11 @@ namespace CoderBlog.UI.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return View();
         }
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index","home");
+        }
 
         [HttpPost]
         public async Task<IActionResult> Giris(string kulAdi,string sifre)

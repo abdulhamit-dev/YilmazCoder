@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewData["Title"] = "Yazılarım";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using CoderBlog.UI.Models.Yazi
+@model List<YaziVM>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"></script>
+<script src="https://cdn.tiny.cloud/1/11phgs80o251qv8pzel7b38mek84h0hmxbqshck6999e6z05/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+
+<div class="text-center"><h1>Yazilarim</h1></div>
+
+<div class="container-lg">
+    <div class="row">
+
+        @foreach (var item in Model.OrderBy(x => x.YaziTarih))
+        {
+            <div class="col-md-6 col-sm-12 col-lg-3">
+                <div class="card shadow-sm" style="margin:5px;padding:1px">
+                    <div class="card-body" style="height:165px">
+                        @item.YaziTarih
+                        <hr />
+                        @item.YaziBaslik
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#duzenleModal" onclick="YaziSec('@item.Id')">Düzenle</div>
+                        <div class="btn btn-outline-danger" onclick="YaziSil('@item.Id')">Sil</div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<div class="modal fade" id="duzenleModal" tabindex="-1" aria-labelledby="duzenleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="seciliYaziContent">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary btn-lg" onclick="YaziDuzenle()">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var seciliYaziId = "";
+    var kapakResimBase64 = "";
+    function YaziSec(yaziIdDegeri) {
+
+        tinyMCE.remove('textarea');
+        seciliYaziId = yaziIdDegeri
+
+        $.post("yazisec",
+            {
+                yaziId: yaziIdDegeri
+            }, function (result) {
+                $('#seciliYaziContent').html(result)
+            });
+    }
+
+    function YaziDuzenle() {
+        tinymce.triggerSave();
+        var yazi = {
+            id:seciliYaziId,
+            yaziBaslik: $('#txtBaslik').val(),
+            yaziIcerik: $('#txtyaziIcerik').val(),
+            kategoriId: $('#kategoriList').val(),
+            resimBase64: "",
+            resimSecimi: false
+        }
+
+        if (yazi.yaziBaslik == "" && yazi.yaziBaslik.length > 15) {
+            alert("Yazi başlık boş ve 15 karakterden az olamaz")
+            return;
+        }
+
+        console.log(yazi)
+
+        if (kapakResimBase64 == "") {
+            yazi['resimSecimi'] = false
+            YaziDuzenlePost(yazi);
+        } else {
+            imageCroopie.croppie('result', 'base64').then(function (imagedata) {
+                yazi['resimSecimi'] = true
+                yazi['resimBase64'] = imagedata
+                YaziDuzenlePost(yazi)
+            });
+        }
+
+    }
+
+    function YaziDuzenlePost(yazi) {
+        $.post("duzenle",
+            { yaziJson: JSON.stringify(yazi) }
+            , function (result) {
+                window.location = "/yazi/yazilarim";
+            });
+    }
+    function YaziSil(yaziId) {
+        $.post("sil",
+            { yaziId: yaziId }
+            , function (result) {
+                window.location = "/yazi/yazilarim";
+            });
+    }
+   
+
+</script>
