@@ -3,6 +3,8 @@
 }
 @using CoderBlog.Entities.Dtos
 @using CoderBlog.Entities
+@using System.IO
+
 @model List<YaziDto>
 
 <style>
@@ -12,16 +14,16 @@
     }
  
 </style>
-<div style="padding:10px">
+<div class="container-lg">
 
 <div class="row">
     @foreach (var item in Model)
     {
     <div class="col-md-6 col-sm-12 col-lg-3">
-        <div class="card shadow-sm" style="margin:5px;padding:1px">
+        <div class="card shadow " style="margin:5px;padding:1px">
             @if (!string.IsNullOrEmpty(item.YaziKapakResim))
             {
-            <a href="#"><img src="~/Resources/YaziKapakResim/@item.YaziKapakResim" style="width:100%;height:auto;" /></a>
+            <a href="/yazi/detay?yaziId=@item.Id"><img src="~/Resources/YaziKapakResim/@item.YaziKapakResim" class="card-img-top"  /></a>
             }
             <div class="card-body">
                 <div class="d-flex justify-content-start">
@@ -33,10 +35,10 @@
                 </div>
                 <br />
                 <strong><a href="/yazi/detay?yaziId=@item.Id">@item.YaziBaslik</a> </strong>
-                <hr />
-                <div class="d-flex justify-content-evenly">
-                    <div class="p-2 bd-highlight"><strong><i class="far fa-calendar-alt"></i> @item.YaziTarih.ToLongDateString()</strong></div>
-                    <div class="p-2 bd-highlight"><span style="float:right"><a href="#"><i class="fas fa-layer-group"></i> @item.KategoriAdi</a> </span></div>
+                <hr style="color:#dc3545" />
+                <div class="d-flex justify-content-evenly" style="padding:0px">
+                    <div class="p-0 bd-highlight" style="font-size:10px"><i class="far fa-calendar-alt"></i> @item.YaziTarih.ToLongDateString()</div>
+                    <div class="p-0 bd-highlight" style="font-size:11px"><span style="float:right"><a href="#"><i class="fas fa-layer-group"></i> @item.KategoriAdi</a> </span></div>
                 </div>
             </div>
         </div>

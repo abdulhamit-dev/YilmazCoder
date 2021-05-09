@@ -56,6 +56,7 @@ namespace CoderBlog.Business.Concrete
                 y.KullaniciAdi = item.kullanici.KullaniciAdi;
                 y.KullaniciId = item.kullanici.Id;
                 y.YaziId = item.yorum.YaziId;
+                y.KullaniciResmi = item.kullanici.Resim;
                 yorumList.Add(y);
             }
             return yorumList;

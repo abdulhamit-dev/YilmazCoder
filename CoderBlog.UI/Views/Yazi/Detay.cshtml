@@ -1,15 +1,15 @@
-﻿@using CoderBlog.Entities.Dtos
-@model YaziDto
+﻿@using CoderBlog.UI.Models.Yazi
+@model YaziVM
 
 @{
     ViewData["Title"] = "Yazi Detay";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-    img{
-        width:100%;
-        height:auto;
-        margin:auto;
+    img {
+        width: 100%;
+        height: auto;
+        margin: auto;
     }
 
     iframe {
@@ -17,32 +17,87 @@
         height: 500px;
     }
 </style>
-<script src="https://cdn.tiny.cloud/1/11phgs80o251qv8pzel7b38mek84h0hmxbqshck6999e6z05/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>  
+<script src="https://cdn.tiny.cloud/1/11phgs80o251qv8pzel7b38mek84h0hmxbqshck6999e6z05/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 <div class="container-sm" style="max-width:1000px">
     <div class="row">
         <div class="col-md-12">
             <div class="card" style="padding:20px">
-                <img src="~/Resources/YaziKapakResim/@Model.YaziKapakResim" style="width:60%;height:auto;margin:auto" />
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="d-flex justify-content-start">
+                            <div>
+                                <img src="https://api.yilmazcoder.online/resources/profilResmi/@Model.KullaniciResmi" style="width:35px;height:auto;border-radius:50%;float:left" />
+                            </div>
+                            <div class="p-1 bd-highlight"><a href="#"><strong> @Model.KullaniciAdi</strong></a> </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="d-flex flex-row bd-highlight mb-3">
+                            <div class="p-2 bd-highlight"> <i class="far fa-heart" style="font-size: 1rem;"></i> @Model.BegeniSayisi </div>
+                            <div class="p-2 bd-highlight"> <i class="far fa-comment" style="font-size: 1rem;"></i> @Model.YorumSayisi</div>
+                            <div class="p-2 bd-highlight"> <i class="far fa-calendar-alt" style="font-size: 1rem;"></i> @Model.YaziTarih.ToLongDateString() </div>
+                        </div>
+                    </div>
+                </div>
+
+                <img src="~/Resources/YaziKapakResim/@Model.YaziKapakResim" style="width:80%;height:auto;margin:auto" />
                 <hr />
                 <div class="text-center" style="font-size:xx-large"><strong>@Model.YaziBaslik</strong></div>
                 <div class="card-body" style="padding:20px">
                     @Html.Raw(Model.YaziIcerik)
-                   
+                </div>
+            </div>
+            <br />
+            <div class="card">
+                <div class="card-body">
+                    @{
+                        if (User.HasClaim(x => x.Type == System.Security.Claims.ClaimTypes.Name))
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="txtYorum" class="form-label">Yeni Yorum </label>
+                                    <textarea id="txtYorum" class="form-control" maxlength="500" rows="4"></textarea>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary float-end" onclick="YorupYap('@Model.Id')">Gönder</button>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="alert alert-warning"> Yorum yapabilmek için <strong><a href="/auth/login">ÜYE</a></strong> olunuz veya <strong><a href="/auth/login">GİRİŞ</a></strong>  yapınız </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+            <br />
+            <div class="card">
+                <div class="card-header">Yorumlar</div>
+                <div class="card-body" id="yorumContent">
+                    @await Html.PartialAsync("_YorumListpp", Model.YorumList)
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
-@*<script>
-    tinyMCE.init({
-        selector: 'textarea',
-        height: 500,
-        plugins: 'print preview fullpage paste searchreplace autolink directionality bbcode visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount spellchecker  imagetools media  link contextmenu colorpicker textpattern help',
-        toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
-        image_advtab: true,
-    });
-</script>*@
-
+<script>
+    function YorupYap(yaziId) {
+        $.post('yorumyap',
+            {
+                yaziId: yaziId,
+                yorumAciklama: $('#txtYorum').val()
+            }, function (data) {
+                $('#yorumContent').html(data)
+            });
+    }
+</script>

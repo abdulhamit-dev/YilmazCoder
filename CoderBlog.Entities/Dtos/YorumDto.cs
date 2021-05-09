@@ -13,5 +13,6 @@ namespace CoderBlog.Entities.Dtos
         public int YaziId { get; set; }
         public string Aciklama { get; set; }
         public DateTime KayitTarihi { get; set; }
+        public string KullaniciResmi { get; set; }
     }
 }

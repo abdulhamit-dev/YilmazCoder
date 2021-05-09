@@ -22,19 +22,50 @@ namespace CoderBlog.UI.Controllers
     {
         private IYaziService _yaziService;
         private IKategoriService _kategoriService;
+        private IYorumService _yorumService;
         private readonly IMapper _mapper;
-        public YaziController(IYaziService yaziService,IKategoriService kategoriService,IMapper mapper)
+
+        public YaziController(IYaziService yaziService,IKategoriService kategoriService,IYorumService yorumService,IMapper mapper)
         {
             _yaziService = yaziService;
             _kategoriService = kategoriService;
+            _yorumService = yorumService;
             _mapper = mapper;
         }
+
+        #region Yazı Detay
 
         public IActionResult Detay(int yaziId)
         {
             YaziDto yazi = _yaziService.GetById(yaziId);
-            return View(yazi);
+            YaziVM yaziVM = _mapper.Map<YaziVM>(yazi);
+            yaziVM.YorumList = _yorumService.GetList(yaziId).ToList();
+            return View(yaziVM);
         }
+        
+        [HttpPost]
+        public IActionResult YorumYap(int yaziId,string yorumAciklama)
+        {
+            Yorum yorum = new Yorum();
+            yorum.KayitTarihi = DateTime.Now;
+            yorum.KullaniciId = 0;
+            if (User.HasClaim(x => x.Type == ClaimTypes.Name))
+            {
+                var kullaniciAdi = User.FindFirst(ClaimTypes.Name).Value;
+                if (!string.IsNullOrEmpty(kullaniciAdi))
+                    yorum.KullaniciId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            }
+
+            yorum.Aciklama = yorumAciklama;
+            yorum.YaziId = yaziId;
+
+            _yorumService.Add(yorum);
+
+            return PartialView("_YorumListpp",_yorumService.GetList(yaziId));
+        }
+
+        #endregion
+
         #region Yeni Yazi
 
         [Authorize]

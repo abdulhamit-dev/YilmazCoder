@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace CoderBlog.UI.Controllers
 {
@@ -24,13 +25,16 @@ namespace CoderBlog.UI.Controllers
         }
         public IActionResult Index()
         {
-
-            //var aktifKullanici = User.Claims;
-            //foreach (var item in aktifKullanici)
-            //{
-            //    string deger = item.Value;
-            //}
-            return View(_yaziService.GetListYeniler());
+            List<YaziDto> yaziList = _yaziService.GetListYeniler().ToList();
+            foreach (YaziDto yaziDto in yaziList)
+            {
+                string yol = Path.Combine("Resources", "YaziKapakResim") + "\\" + yaziDto.YaziKapakResim;
+                if (!System.IO.File.Exists(Path.Combine("Resources", "YaziKapakResim") + "\\" + yaziDto.YaziKapakResim))
+                {
+                    yaziDto.YaziKapakResim = "";
+                }
+            }
+            return View(yaziList);
         }
 
       
