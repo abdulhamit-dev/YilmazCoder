@@ -33,10 +33,7 @@ namespace CoderBlogApi.Controllers
         [Route("login")]
         public IActionResult Login(Kullanici kul)
         {
-
-
-            //string token = "";
-            kul = authManager.Login(kul);//manager.GetById(kul.KullaniciAdi, kul.Sifre);
+            kul = authManager.Login(kul);
 
             AccessToken token = new AccessToken();
 

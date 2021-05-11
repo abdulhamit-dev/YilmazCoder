@@ -36,13 +36,13 @@ namespace CoderBlogApi.Controllers
         //[Authorize(Roles = "Admin")]
         public IActionResult GetListYeniler()
         {
-            var result = _yaziService.GetListYeniler();
+            var result = _yaziService.GetYaziDtoList();
             return Ok(result);
         }
         [HttpGet("getlistTrendler")]
         public IActionResult GetListTrendler()
         {
-            var result = _yaziService.GetListTrendler();
+            var result = _yaziService.GetYaziDtoList();
             return Ok(result);
         }
         [HttpGet("getlistfilter")]

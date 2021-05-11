@@ -5,28 +5,63 @@
 }
 
 
-<div class="row">
-    <div class="col-12 col-md-4 col-sm-2"></div>
-    <div class="col-12 col-md-4 col-sm-8">
-        <div class="card">
-            <div class="card-header">Giriş</div>
-            <div class="card-body">
-                <div class="mb-3">
-                    <label for="txtKulAdi" class="form-label">Kullanıcı Adı</label>
-                    <input class="form-control" type="text"  id="txtKulAdi" />
+
+<div class="container">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="giris-tab" data-bs-toggle="tab" data-bs-target="#giris" 
+                    type="button" role="tab" aria-controls="giris" aria-selected="true">Giriş</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="uyeol-tab" data-bs-toggle="tab" data-bs-target="#uyeol" 
+                    type="button" role="tab" aria-controls="uyeol" aria-selected="false">Üye Ol</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="uyekikTabContent">
+        <div class="tab-pane fade show active" id="giris" role="tabpanel" aria-labelledby="giris-tab">
+            <div class="row">
+                <div class="col-12 col-md-4 col-sm-2"></div>
+                <div class="col-12 col-md-4 col-sm-8">
+                    <div class="mb-3">
+                        <label for="txtKulAdi" class="form-label">Kullanıcı Adı</label>
+                        <input class="form-control" type="text" id="txtKulAdi" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtSifre" class="form-label">Şifre</label>
+                        <input class="form-control" type="password" id="txtSifre" />
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-primary" onclick="Giris()">Giriş</button>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="txtSifre" class="form-label">Şifre</label>
-                    <input class="form-control" type="password"  id="txtSifre" />
-                </div>
-            </div>
-            <div class="card-footer">
-                <button class="btn btn-primary" onclick="Giris()">Giriş</button>
+                <div class="col-12 col-md-4 col-sm-2"></div>
             </div>
         </div>
+        <div class="tab-pane fade" id="uyeol" role="tabpanel" aria-labelledby="uyeol-tab">
+            <div class="row">
+                <div class="col-12 col-md-4 col-sm-2"></div>
+                <div class="col-12 col-md-4 col-sm-8">
+                    <div class="mb-3">
+                        <label for="txtKulAdi" class="form-label">Kullanıcı Adı</label>
+                        <input class="form-control" type="text" id="txtKulAdi2" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtSifre" class="form-label">Şifre</label>
+                        <input class="form-control" type="password" id="txtSifre2" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtSifre" class="form-label">Eposta</label>
+                        <input class="form-control" type="email" id="txtEposta" />
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-primary" onclick="KayitOl()">Kaydet</button>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 col-sm-2"></div>
+            </div>
 
+        </div>
     </div>
-    <div class="col-12 col-md-4 col-sm-2"></div>
 </div>
 
 
@@ -35,7 +70,7 @@
     function Giris() {
         $.post('Giris',
             {
-                kulAdi: $('#txtKulAdi').val(),   
+                kulAdi: $('#txtKulAdi').val(),
                 sifre: $('#txtSifre').val()
             },
             function (rv) {
@@ -43,6 +78,28 @@
                     window.location = "/";
                 }
             });
+    }
+
+    function KayitOl() {
+
+        if ($('#txtKulAdi2').val() != "" && $('#txtSifre2').val() != "" && $('#txtEposta').val() != "") {
+            $.post('KayitOl',
+                {
+                    kulAdi: $('#txtKulAdi2').val(),
+                    sifre: $('#txtSifre2').val(),
+                    email: $('#txtEposta').val(),
+                },
+                function (rv) {
+                    if (rv) {
+                        alert('Üye olundu');
+                        location.reload();
+                    } else {
+                        alert("Bu bilgiler ile daha önce üye olunmuş")
+                    }
+                });
+        } else {
+            alert("Gerekli alanları doldurunuz");
+        }
     }
 
 </script>

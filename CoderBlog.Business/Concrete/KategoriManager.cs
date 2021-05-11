@@ -1,7 +1,10 @@
 ﻿using CoderBlog.Business.Abstract;
+using CoderBlog.Core.DataAccess.EntityFramework;
 using CoderBlog.DataAccess.Abstract;
 using CoderBlog.DataAccess.Concrete;
+using CoderBlog.DataAccess.Concrete.EntityFramework.Context;
 using CoderBlog.Entities;
+using CoderBlog.Entities.Dtos;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,6 +35,11 @@ namespace CoderBlog.Business.Concrete
         public IList<Kategori> GetList()
         {
             return _kategoriDal.GetList().OrderBy(x=>x.Adi).ToList();
+        }
+
+        public IList<KategoriYaziDto> GetListKategoriYazi()
+        {
+            return _kategoriDal.GetKategoriYaziList();
         }
 
         public void Update(Kategori kategori)

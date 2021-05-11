@@ -8,9 +8,9 @@ namespace CoderBlog.Business.Abstract
 {
     public interface IKullaniciService
     {
-        
         Kullanici GetById(int kulId);
         Kullanici GetById(string kulAdi,string sifre);
+        Kullanici GetKullaniciKontrol(string kulAdi,string ePosta);
         IList<Kullanici> GetList();
         void Add(Kullanici kullanici);
         void Delete(Kullanici kullanici);

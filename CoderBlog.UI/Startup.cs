@@ -28,7 +28,6 @@ namespace CoderBlog.UI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddAutoMapper(typeof(Startup));
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfil());

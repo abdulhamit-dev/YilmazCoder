@@ -37,6 +37,15 @@ namespace CoderBlog.Business.Concrete
             return _kullaniciDal.Get(x => x.KullaniciAdi == kulAdi && x.Sifre == sifre);
         }
 
+        public Kullanici GetKullaniciKontrol(string kulAdi, string ePosta)
+        {
+            Kullanici kul = _kullaniciDal.Get(x => x.KullaniciAdi == kulAdi);
+            if (kul == null)
+                kul = _kullaniciDal.Get(x => x.Eposta == ePosta);
+
+            return kul;
+        }
+
         public IList<Kullanici> GetList()
         {
             return _kullaniciDal.GetList();

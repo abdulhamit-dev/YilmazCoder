@@ -54,6 +54,24 @@ namespace CoderBlog.UI.Controllers
             else
                 return Json(false);
         }
+        [HttpPost]
+        public IActionResult KayitOl(string kulAdi, string sifre,string email)
+        {
+            Kullanici kul = _kullaniciService.GetKullaniciKontrol(kulAdi, email);
+
+            if (kul == null)
+            {
+                kul = new Kullanici();
+                kul.KullaniciAdi = kulAdi;
+                kul.Sifre = sifre;
+                kul.Eposta = email;
+                _kullaniciService.Add(kul);
+
+                return Json(true);
+            }
+            else
+                return Json(false);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Cikis(string kulAdi, string sifre)

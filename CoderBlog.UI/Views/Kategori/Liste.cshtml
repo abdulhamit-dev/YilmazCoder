@@ -1,5 +1,5 @@
-﻿@using CoderBlog.Entities
-@model List<Kategori>
+﻿@using CoderBlog.Entities.Dtos
+@model List<KategoriYaziDto>
 @{
     ViewData["Title"] = "Kategori Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,7 +16,7 @@
 
                 <div class="card-body">
                     <strong> @item.Adi</strong>
-                    <div class="float-end " style="background-color:#dc3545;border-radius:100%;width:25px;text-align:center;color:white"> @item.Id</div>
+                    <div class="float-end " style="background-color:#dc3545;border-radius:100%;width:25px;text-align:center;color:white"> @item.YaziSayisi</div>
                 </div>
             </a>
         </div>

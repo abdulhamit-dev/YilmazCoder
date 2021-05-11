@@ -21,7 +21,7 @@ namespace CoderBlog.UI.Controllers
         }
         public IActionResult Liste()
         {
-            return View(_kategoriService.GetList());
+            return View(_kategoriService.GetListKategoriYazi());
         }
         public IActionResult Detay(string Id)
         {

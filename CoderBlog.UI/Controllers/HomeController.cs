@@ -25,7 +25,7 @@ namespace CoderBlog.UI.Controllers
         }
         public IActionResult Index()
         {
-            List<YaziDto> yaziList = _yaziService.GetListYeniler().ToList();
+            List<YaziDto> yaziList = _yaziService.GetYaziDtoList().ToList();
             foreach (YaziDto yaziDto in yaziList)
             {
                 string yol = Path.Combine("Resources", "YaziKapakResim") + "\\" + yaziDto.YaziKapakResim;
