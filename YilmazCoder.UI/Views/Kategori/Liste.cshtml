@@ -1,0 +1,28 @@
+﻿@using YilmazCoder.Entities.Dtos
+@model List<KategoriYaziDto>
+@{
+    ViewData["Title"] = "Kategori Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-lg">
+
+<div class="row">
+@foreach (var item in Model)
+{
+
+    <div class="col-md-3" style="margin-top:10px">
+        <div class="card border-danger">
+            <a href="/kategori/detay/@item.Adi" style="text-decoration:unset;color:black">
+
+                <div class="card-body">
+                    <strong> @item.Adi</strong>
+                    <div class="float-end " style="background-color:#dc3545;border-radius:100%;width:25px;text-align:center;color:white"> @item.YaziSayisi</div>
+                </div>
+            </a>
+        </div>
+    </div>
+}
+
+</div>
+</div>
+

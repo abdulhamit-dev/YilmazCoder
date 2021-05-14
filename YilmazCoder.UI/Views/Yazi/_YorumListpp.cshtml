@@ -1,0 +1,26 @@
+﻿@using YilmazCoder.Entities.Dtos
+@model List<YorumDto>
+@foreach (var yorum in Model)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-start">
+                <div>
+                    <img src="~/resources/profilResmi/@yorum.KullaniciResmi" style="width:35px;height:auto;border-radius:50%;float:left" />
+                </div>
+                <div class="p-1 bd-highlight"><a href="#"><strong> @yorum.KullaniciAdi</strong></a> </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="padding:15px">
+            @yorum.Aciklama
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-end">  @yorum.KayitTarihi.ToShortDateString()</div>
+        </div>
+    </div>
+    <hr style="color:#dc3545" />
+}

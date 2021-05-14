@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Anasayfa";
+}
+@using YilmazCoder.Entities.Dtos
+@using YilmazCoder.Entities
+@using System.IO
+
+@model List<YaziDto>
+
+<style>
+    a {
+        text-decoration:unset;
+        color:black
+    }
+ 
+</style>
+<div class="container-lg">
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+    <div class="col-md-6 col-sm-12 col-lg-3">
+        <div class="card shadow" style="margin:5px;padding:1px">
+            @if (!string.IsNullOrEmpty(item.YaziKapakResim))
+            {
+            <a href="/yazi/detay/@item.Id/@Url.FriendlyUrl(item.YaziBaslik)"><img src="~/Resources/YaziKapakResim/@item.YaziKapakResim" class="card-img-top"  /></a>
+            }
+            <div class="card-body">
+                <div class="d-flex justify-content-start">
+                    <div>
+                        <img src="~/Resources/profilResmi/@item.KullaniciResmi" style="width:35px;height:auto;border-radius:50%;float:left" />
+                    </div>
+                    <div class="p-1 bd-highlight"><a href="#"><strong> @item.KullaniciAdi</strong></a> </div>
+                </div>
+                <br />
+                <strong><a href="/yazi/detay/@item.Id/@Url.FriendlyUrl(item.YaziBaslik)">@item.YaziBaslik</a> </strong>
+                <hr style="color:#dc3545" />
+                <div class="d-flex justify-content-evenly" style="padding:0px">
+                    <div class="p-0 bd-highlight" style="font-size:10px"><i class="far fa-calendar-alt"></i> @item.YaziTarih.ToLongDateString()</div>
+                    <div class="p-0 bd-highlight" style="font-size:11px"><span style="float:right"><a href="/kategori/detay/@item.KategoriAdi"><i class="fas fa-layer-group"></i> @item.KategoriAdi</a> </span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+</div>

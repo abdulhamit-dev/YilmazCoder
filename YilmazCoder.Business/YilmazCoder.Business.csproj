@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>YilmazCoder.Business</AssemblyName>
+    <RootNamespace>YilmazCoder.Business</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\YilmazCoder.DataAccess\YilmazCoder.DataAccess.csproj" />
+    <ProjectReference Include="..\YilmazCoder.Entities\YilmazCoder.Entities.csproj" />
+  </ItemGroup>
+
+</Project>
