@@ -1,6 +1,6 @@
 # YilmazCoder
 
-Katmanlı Mimari Kullanılmaya çalışılmıştır
+.Net Core katmanlı mimari kullanılmaya çalışılmıştır
 
 Api için JWT kullanıldı (bu apiye bağlı angular ile geliştirilmiş proje var)
 
