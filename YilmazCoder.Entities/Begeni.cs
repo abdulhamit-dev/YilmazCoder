@@ -10,6 +10,6 @@ namespace YilmazCoder.Entities
         public int Id { get; set; }
         public int YaziId { get; set; }
         public int KullaniciId { get; set; }
-        public DateTime KayitTarihi { get; set; }
+        public DateTime KayitTarihi { get; set; } = DateTime.Now;
     }
 }
