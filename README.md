@@ -6,14 +6,19 @@ Api için JWT kullanıldı (bu apiye bağlı angular ile geliştirilmiş proje v
 
 .Net Core UI için CookieAuthentication
 
-Backend
-*Entity Framework
-*Automepper
-*Autofac
+<b>Backend</b>
+>Entity Framework
 
-Frontend
+>Automepper
+
+>Autofac
+
+<b>Frontend</b>
+
 >bootstrap
+
 >jquery
+
 >foliotek/croppie
 
 
