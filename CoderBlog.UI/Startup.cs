@@ -75,7 +75,11 @@ namespace CoderBlog.UI
 
             app.UseEndpoints(endpoints =>
             {
-                    endpoints.MapControllerRoute(
+                endpoints.MapControllerRoute(
+                    name: "yaziseo",
+                    pattern: "{controller=Yazi}/{action=Detay}/{id}/{title}");
+
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });

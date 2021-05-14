@@ -37,11 +37,12 @@ namespace CoderBlog.UI.Controllers
 
         #region Yazı Detay
 
-        public IActionResult Detay(int yaziId)
+
+        public IActionResult Detay(int id, string title)
         {
-            YaziDto yazi = _yaziService.GetById(yaziId);
+            YaziDto yazi = _yaziService.GetById(id);
             YaziVM yaziVM = _mapper.Map<YaziVM>(yazi);
-            yaziVM.YorumList = _yorumService.GetList(yaziId).ToList();
+            yaziVM.YorumList = _yorumService.GetList(id).ToList();
             return View(yaziVM);
         }
         

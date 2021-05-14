@@ -20,10 +20,10 @@
     @foreach (var item in Model)
     {
     <div class="col-md-6 col-sm-12 col-lg-3">
-        <div class="card shadow " style="margin:5px;padding:1px">
+        <div class="card shadow" style="margin:5px;padding:1px">
             @if (!string.IsNullOrEmpty(item.YaziKapakResim))
             {
-            <a href="/yazi/detay?yaziId=@item.Id"><img src="~/Resources/YaziKapakResim/@item.YaziKapakResim" class="card-img-top"  /></a>
+            <a href="/yazi/detay/@item.Id/@Url.FriendlyUrl(item.YaziBaslik)"><img src="~/Resources/YaziKapakResim/@item.YaziKapakResim" class="card-img-top"  /></a>
             }
             <div class="card-body">
                 <div class="d-flex justify-content-start">
@@ -33,7 +33,7 @@
                     <div class="p-1 bd-highlight"><a href="#"><strong> @item.KullaniciAdi</strong></a> </div>
                 </div>
                 <br />
-                <strong><a href="/yazi/detay?yaziId=@item.Id">@item.YaziBaslik</a> </strong>
+                <strong><a href="/yazi/detay/@item.Id/@Url.FriendlyUrl(item.YaziBaslik)">@item.YaziBaslik</a> </strong>
                 <hr style="color:#dc3545" />
                 <div class="d-flex justify-content-evenly" style="padding:0px">
                     <div class="p-0 bd-highlight" style="font-size:10px"><i class="far fa-calendar-alt"></i> @item.YaziTarih.ToLongDateString()</div>
