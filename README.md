@@ -21,4 +21,4 @@ Api için JWT kullanıldı (bu apiye bağlı angular ile geliştirilmiş proje v
 
 >foliotek/croppie
 
-
+http://yilmazcoder.online/
