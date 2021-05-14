@@ -23,8 +23,6 @@ namespace YilmazCoder.DataAccess.Concrete.EntityFramework
                                         Id = kategoriYazi.Key.Id,
                                         YaziSayisi = kategoriYazi.Count()
                                     });
-
-
                 return kategoriList.ToList();
             }
         }

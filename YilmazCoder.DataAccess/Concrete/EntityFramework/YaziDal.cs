@@ -43,31 +43,9 @@ namespace YilmazCoder.DataAccess.Concrete.EntityFramework
                                     BegeniSayisi=context.Begeni.Where(x=>x.YaziId==yazi.Id).Count(),
                                     YorumSayisi=context.Yorum.Where(x=>x.YaziId==yazi.Id).Count(),
                                 }).FirstOrDefault();
-
-
-                //foreach (var item in yazilist)
-                //{
-                //    YaziDto y = new YaziDto();
-                //    y.Id = item.yazi.Id;
-                //    y.KategoriId = item.yazi.KategoriId;
-                //    y.KategoriAdi = kategoriRep.Get(x => x.Id == item.yazi.KategoriId).Adi;
-                //    y.KullaniciAdi = item.kullanici.KullaniciAdi;
-                //    y.KullaniciId = item.kullanici.Id;
-                //    y.KullaniciResmi = item.kullanici.Resim;
-                //    y.YaziBaslik = item.yazi.YaziBaslik;
-                //    y.YaziIcerik = item.yazi.YaziIcerik;
-                //    y.YaziTarih = item.yazi.YaziTarih;
-                //    y.YaziKapakResim = item.yazi.YaziKapakResim;
-                //    y.BegeniSayisi = begeniRep.GetList(x => x.YaziId == y.Id).Count();
-                //    y.YorumSayisi = yorumRep.GetList(x => x.YaziId == y.Id).Count();
-                //    yaziDto = y;
-                //}
-
-
                 return yazilist;
             }
         }
-
         public List<YaziDto> GetListKategoriYazi(string kategoriAdi)
         {
             List<YaziDto> ylist = new List<YaziDto>();
@@ -92,46 +70,7 @@ namespace YilmazCoder.DataAccess.Concrete.EntityFramework
                                 }).ToList();
                 return yaziList;
             }
-
-
-            //var yaziRep = new EfRepositoryBase<Yazi, YilmazCoderContext>();
-            //var kullaniciRep = new EfRepositoryBase<Kullanici, YilmazCoderContext>();
-            //var yorumRep = new EfRepositoryBase<Yorum, YilmazCoderContext>();
-            //var begeniRep = new EfRepositoryBase<Begeni, YilmazCoderContext>();
-            //var kategoriRep = new EfRepositoryBase<Kategori, YilmazCoderContext>();
-
-
-
-            //var yazilist = (from yazi in yaziRep.GetList()
-            //                join kategori in kategoriRep.GetList(x => x.Adi == kategoriAdi) on yazi.KategoriId equals kategori.Id
-            //                select new YaziDto
-            //                {
-            //                    yazi = yazi,
-            //                    kategori = kategori
-            //                }
-            //                  ).ToList();
-
-            //foreach (var item in yazilist)
-            //{
-            //    YaziDto y = new YaziDto();
-            //    y.Id = item.yazi.Id;
-            //    y.KategoriId = item.yazi.KategoriId;
-            //    y.KategoriAdi = kategoriRep.Get(x => x.Id == item.yazi.KategoriId).Adi;
-            //    y.KullaniciAdi = kullaniciRep.Get(x => x.Id == item.yazi.KullaniciId).KullaniciAdi;
-            //    y.KullaniciResmi = kullaniciRep.Get(x => x.Id == item.yazi.KullaniciId).Resim;
-            //    y.YaziBaslik = item.yazi.YaziBaslik;
-            //    y.YaziIcerik = item.yazi.YaziIcerik;
-            //    y.YaziTarih = item.yazi.YaziTarih;
-            //    y.YaziKapakResim = item.yazi.YaziKapakResim;
-            //    y.BegeniSayisi = begeniRep.GetList(x => x.YaziId == y.Id).Count();
-            //    y.YorumSayisi = yorumRep.GetList(x => x.YaziId == y.Id).Count();
-            //    ylist.Add(y);
-            //}
-
-
-            //return ylist;
         }
-
         public List<YaziDto> GetYaziDtoList()
         {
             using (YilmazCoderContext context = new YilmazCoderContext())
